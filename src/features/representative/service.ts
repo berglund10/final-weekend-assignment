@@ -15,8 +15,9 @@ export const createService = () => {
       getAll: async () => {
         return await db;
       },
-      add: async () => {
-        return await db.push({name: "JA", email: "JA@com"});
+      add: async (data:any) => {
+        console.log(data);
+        return await db.push(data);
       },
 }
 }
