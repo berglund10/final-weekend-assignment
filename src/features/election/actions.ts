@@ -21,9 +21,7 @@ export const postElectionAction = async (formData: FormData) => {
 };
 
 export const doneElectionAction = async (id: string) => {
-  
-    await electionService.done(id);
+  await electionService.done(id);
 
-    revalidatePath("/election")
-
-  };
+  revalidatePath("/election");
+};

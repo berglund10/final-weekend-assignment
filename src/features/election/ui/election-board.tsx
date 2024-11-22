@@ -1,16 +1,18 @@
 "use client";
 import Link from "next/link";
 
-
-import { doneElectionAction, postElectionAction } from "@/features/election/actions";
+import {
+  doneElectionAction,
+  postElectionAction,
+} from "@/features/election/actions";
 
 type Props = {
-    elections: {
-      id: string;
-      type: string;
-      done: boolean;
-    }[];
-  };
+  elections: {
+    id: string;
+    type: string;
+    done: boolean;
+  }[];
+};
 
 export function ElectionBoard({ elections }: Props) {
   // getAll elections and map all elections. if done -> show results, otherwise be able to close the election!
@@ -22,17 +24,23 @@ export function ElectionBoard({ elections }: Props) {
       This is the election page!!
       {elections.map((election) => {
         return (
-          <div key={election.id} style={{ display: 'flex', alignItems: 'center' }}>
-            <p style={{ marginRight: '10px' }}>{election.type}</p>
+          <div
+            key={election.id}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <p style={{ marginRight: "10px" }}>{election.type}</p>
             {election.done ? (
-                <Link href={`/election/result?id=${election.id}`}>Show Result</Link>
+              <Link href={`/election/result?id=${election.id}`}>
+                Show Result
+              </Link>
             ) : (
-              <button onClick={() => doneElectionAction(election.id)}>close</button>
+              <button onClick={() => doneElectionAction(election.id)}>
+                close
+              </button>
             )}
           </div>
         );
       })}
-
       <form action={postElectionAction}>
         <input
           type="text"

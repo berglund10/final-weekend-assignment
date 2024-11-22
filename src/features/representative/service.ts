@@ -16,7 +16,6 @@ export const createService = () => {
     vote: async (id: string) => {
       console.log("VOTED FOR :" + id);
       //where id is === id. vote
-
-    }
+    },
   };
 };

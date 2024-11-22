@@ -9,7 +9,7 @@ export default async function Page() {
 
   return (
     <>
-    <ElectionBoard elections={elections} />
+      <ElectionBoard elections={elections} />
     </>
-  )
+  );
 }
