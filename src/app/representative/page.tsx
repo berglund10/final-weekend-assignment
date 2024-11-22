@@ -1,5 +1,8 @@
-export default function Home() {
+import { representativeService } from "@/features/representative/instance";
 
+export default async function Home() {
+    const all = await representativeService.getAll()
+    console.log(all);
     //Call service getAll
     //Call service.add (post)
 

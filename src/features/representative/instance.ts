@@ -1,3 +1,3 @@
 import { createService } from "./service";
 
-export const resService = createService();
+export const representativeService = createService();
