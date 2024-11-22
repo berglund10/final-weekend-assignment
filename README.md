@@ -34,8 +34,8 @@ The app should help us understand how well the public voters agrees with their r
 
 1. Public voters can select an election choice that they prefer. This will let the representatives know how well their votes agree with their public voters’ preferences. Public preferences are not part of the actual voting, and are only used as statistical information.
 2. Each representative has these public statistics:
-    1. How many public votes the representative has gained.
-    2. The agreement rate at which the public voters preferred the same choice that their representative voted on.
+   1. How many public votes the representative has gained.
+   2. The agreement rate at which the public voters preferred the same choice that their representative voted on.
 3. There should be an average agreement rate between the representatives and public voters for each election.
 
 ### Elections management
@@ -86,7 +86,7 @@ Beatrice gets an agreement rate of 0% on this election.
 
 - Tech stack: Next.js, TypeScript, Drizzle, Postgres, Zod, ESLint, Prettier.
 - A readme explaining your big-picture plan.
-- A GitHub planning board with sprint goals (done columns) where it's simple to understand how you divided your work in larger chunks. *Do not miss this requirement, as it would mean that you need to write a whole new project just to be able to plan it properly.*
+- A GitHub planning board with sprint goals (done columns) where it's simple to understand how you divided your work in larger chunks. _Do not miss this requirement, as it would mean that you need to write a whole new project just to be able to plan it properly._
 - Good UI design, including good choice of font, color, responsive layout, and component design. The design does not need to be original. Just high quality.
 - Semantic HTML.
 - Tidy code.
