@@ -1,6 +1,6 @@
 import { representativeService } from "@/features/representative/instance";
 
-export default async function Home() {
+export default async function Page() {
     //await representativeService.add();
 
     const all = await representativeService.getAll()
