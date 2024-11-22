@@ -19,15 +19,13 @@ export const createService = () => {
     },
 
     done: async (id: string) => {
-      // Hitta indexet för objektet som har det givna id
       const index = db.findIndex((election) => election.id === id);
 
       if (index !== -1) {
-        // Uppdatera objektet och sätt done till true
         db[index].done = true;
-        return db[index]; // Returnera det uppdaterade objektet
+        return db[index];
       } else {
-        return null; // Om inget objekt med det id hittades, returnera null
+        return null;
       }
     },
   };

@@ -1,4 +1,6 @@
 "use client";
+import Link from "next/link";
+
 
 import { doneElectionAction, postElectionAction } from "@/features/election/actions";
 
@@ -23,7 +25,7 @@ export function ElectionBoard({ elections }: Props) {
           <div key={election.id} style={{ display: 'flex', alignItems: 'center' }}>
             <p style={{ marginRight: '10px' }}>{election.type}</p>
             {election.done ? (
-              <button>show result</button>
+                <Link href={`/election/result?id=${election.id}`}>Show Result</Link>
             ) : (
               <button onClick={() => doneElectionAction(election.id)}>close</button>
             )}

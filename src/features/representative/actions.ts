@@ -16,3 +16,10 @@ export const postRepresentativeAction = async (formData: FormData) => {
 
   revalidatePath("/representative");
 };
+
+export const voteOnRepresentativeAction = async (id: string) => {
+  
+    await representativeService.vote(id);
+  
+    revalidatePath("/representative");
+  };
