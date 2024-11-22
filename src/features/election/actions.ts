@@ -16,5 +16,13 @@ export const postElectionAction = async (formData: FormData) => {
 
   await electionService.add(rawData);
 
-  revalidatePath("/representative");
+  revalidatePath("/election");
 };
+
+export const doneElectionAction = async (id: string) => {
+  
+    await electionService.done(id);
+
+    revalidatePath("/election")
+
+  };
