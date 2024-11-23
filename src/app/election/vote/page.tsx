@@ -8,14 +8,14 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const id = (await searchParams).id;
-  const alt = await electionService.getAlternatives(Number(id));
+  const alternatives = await electionService.getAlternatives(Number(id));
 
   return (
     <>
       <h1>Election {id}</h1>
       <h2>Alternatives</h2>
       <div>
-        {alt.map((alternative) => {
+        {alternatives.map((alternative) => {
           return (
             <AlternativeButton
               key={alternative.id}
@@ -27,6 +27,7 @@ export default async function Page({
           );
         })}
       </div>
+      <FinishElectionButton/>
     </>
   );
 }
