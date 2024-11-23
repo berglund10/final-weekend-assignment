@@ -15,7 +15,7 @@ export function VoteBoard({ representative }: Props) {
     <>
       {representative.map((rep) => {
         return (
-          <p onClick={() => voteOnRepresentativeAction(rep.id)} key={rep.email}>
+          <p style={{ cursor: 'pointer' }} onClick={() => voteOnRepresentativeAction(rep.id)} key={rep.email}>
             {rep.name} 
           </p>
         );
