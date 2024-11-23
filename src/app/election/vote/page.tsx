@@ -18,8 +18,8 @@ export default async function Page({
         {alt.map((alternative) => {
           return (
             <AlternativeButton
-              key={alternative.alternative_id}
-              alternativeId={alternative.alternative_id}
+              key={alternative.id}
+              alternativeId={alternative.id}
               alternativeName={alternative.name}
               selectAction={selectAction}
               electionId={Number(id)}

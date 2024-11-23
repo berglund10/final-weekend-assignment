@@ -1,5 +1,5 @@
 import { boolean, integer, pgTable, varchar } from "drizzle-orm/pg-core";
-import { publicVotersTable } from "../representative/schema";
+import { publicVotersTable, representativeTable } from "../representative/schema";
 
 export const electionTable = pgTable("election", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -15,9 +15,11 @@ export const alternativesTable = pgTable("alternatives", {
     .references(() => electionTable.id),
 });
 
-export const votesTable = pgTable("votes", {
+export const votesTable = pgTable("votes", { //Kanske byta namn till public_chocies eller något
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    voter_id: integer().notNull().references(() => publicVotersTable.id),
+    voter_id: integer().references(() => publicVotersTable.id),
+    representative_id: integer().references(() => representativeTable.id),
     election_id: integer().notNull().references(() => electionTable.id),
-    alternative_id: integer().notNull().references(() => alternativesTable.id)  });
+    alternative_id: integer().notNull().references(() => alternativesTable.id)
+});
 

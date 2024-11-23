@@ -24,7 +24,7 @@ export const postElectionAction = async (formData: FormData) => {
 
 export const selectAction = async (election_id: number, alternativeId: number) => {
   //call votes tabell
-  console.log(election_id);
+  console.log("THIS ELECTOINS HAS ID: "+ election_id);
   console.log(alternativeId);
   //const all = await electionService.getAll();
 }

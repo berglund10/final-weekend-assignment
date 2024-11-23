@@ -11,8 +11,11 @@ type Props = {
 
 export function AlternativeButton({ alternativeId, alternativeName, selectAction, electionId }: Props) {
   return (
+    <>
     <button onClick={() => selectAction(electionId, alternativeId)}>
-      Vote for {alternativeName}
+    {alternativeName}
     </button>
+    <br/>
+    </>
   );
 }
