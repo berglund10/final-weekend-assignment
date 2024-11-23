@@ -1,5 +1,5 @@
 import { Db } from "@/db/instance";
-import { electionTable } from "./schema";
+import { alternativesTable, electionTable } from "./schema";
 import { eq } from "drizzle-orm/pg-core/expressions";
 
 export const createService = (db: Db) => {
@@ -8,9 +8,17 @@ export const createService = (db: Db) => {
       return await db.select().from(electionTable);
     },
 
-    add: async (rawData: any) => {
+    addElection: async (rawData: any) => {
       //const representative = representativeSchema.parse(rawData);
-      await db.insert(electionTable).values(rawData);
+      const data = await db.insert(electionTable).values(rawData).returning();;
+      return data[0];
+    },
+    addAlternative: async (election_id: number, alternative: string) => {
+      // Gör ett API-anrop eller en databasoperation för att lägga till alternativet
+      await db.insert(alternativesTable).values({
+        election_id,
+        name: alternative,
+      });
     },
 
     getById: async (id: number) => {

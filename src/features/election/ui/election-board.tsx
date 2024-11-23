@@ -2,6 +2,7 @@
 import Link from "next/link";
 
 import { postElectionAction } from "@/features/election/actions";
+import { useState } from "react";
 
 type Props = {
   elections: {
@@ -12,9 +13,18 @@ type Props = {
 };
 
 export function ElectionBoard({ elections }: Props) {
-  // getAll elections and map all elections. if done -> show results, otherwise be able to close the election!
-  // addNew election
-  // patch/ set election as done!
+  const [alternatives, setAlternatives] = useState([""]);
+
+  const handleAlternativeChange = (index: number, value: string) => {
+    const updatedAlternatives = [...alternatives];
+    updatedAlternatives[index] = value;
+    setAlternatives(updatedAlternatives);
+  };
+
+  const addAlternativeField = () => {
+    setAlternatives([...alternatives, ""]);
+  };
+
 
   return (
     <>
@@ -38,16 +48,33 @@ export function ElectionBoard({ elections }: Props) {
       <form action={postElectionAction}>
         <input
           type="text"
-          name="name"
-          placeholder="election name here"
-          className="input input-bordered w-full max-w-xs"
-        />
-        <input
-          type="text"
-          name="type"
+          name="description"
           placeholder="Type of election"
           className="input input-bordered w-full max-w-xs"
         />
+
+        {alternatives.map((alternative, index) => (
+          <div key={index} className="mb-2">
+            <input
+              type="text"
+              name="alternative"
+              value={alternative}
+              placeholder="Type of election alternative"
+              onChange={(e) => handleAlternativeChange(index, e.target.value)}
+              className="input input-bordered w-full max-w-xs"
+              required
+            />
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={addAlternativeField}
+          className="btn btn-ghost"
+        >
+          Add Alternative
+        </button>
+
         <button type="submit" className="btn btn-ghost">
           Send
         </button>
