@@ -20,6 +20,11 @@ export const createService = (db: Db) => {
         name: alternative,
       });
     },
+    getAlternatives: async (election_id: number) => {
+      return await db.select()
+      .from(alternativesTable)
+      .where(eq(alternativesTable.election_id, election_id));
+    },
 
     getById: async (id: number) => {
       const election = await db
