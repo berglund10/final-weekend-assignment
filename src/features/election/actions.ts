@@ -23,8 +23,10 @@ export const postElectionAction = async (formData: FormData) => {
 };
 
 export const selectAction = async (election_id: number, alternativeId: number) => {
-  //call votes tabell
-  console.log("THIS ELECTOINS HAS ID: "+ election_id);
-  console.log(alternativeId);
-  //const all = await electionService.getAll();
+
+  const representant_id = 1;
+
+  await electionService.postVote(representant_id, election_id, alternativeId);
+
+  revalidatePath("/election");
 }

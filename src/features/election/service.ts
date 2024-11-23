@@ -65,5 +65,14 @@ export const createService = (db: Db) => {
 
       return votesForAlternative.length;
     },
+    postVote: async (representativeId: number, electionId: number, alternativeId: number) => {
+      await db
+        .insert(votesTable)
+        .values({
+          representative_id: representativeId,
+          election_id: electionId,
+          alternative_id: alternativeId
+        });
+    }
   };
 };
