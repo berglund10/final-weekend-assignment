@@ -1,9 +1,7 @@
 "use client";
 import Link from "next/link";
 
-import {
-  postElectionAction,
-} from "@/features/election/actions";
+import { postElectionAction } from "@/features/election/actions";
 
 type Props = {
   elections: {
@@ -33,9 +31,7 @@ export function ElectionBoard({ elections }: Props) {
                 Show Result
               </Link>
             ) : (
-              <Link href={`/election/vote?id=${election.id}`}>
-                Vote 
-              </Link>
+              <Link href={`/election/vote?id=${election.id}`}>Vote</Link>
             )}
           </div>
         );

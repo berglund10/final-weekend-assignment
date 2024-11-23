@@ -8,11 +8,10 @@ export const createService = (db: Db) => {
       return await db.select().from(representativeTable);
     },
     add: async (rawData: Representative) => {
-
       const representative = representativeSchema.parse(rawData);
 
       await db.insert(representativeTable).values(representative);
-},
+    },
     vote: async (id: string) => {
       console.log("VOTED FOR :" + id);
       //where id is === id. vote

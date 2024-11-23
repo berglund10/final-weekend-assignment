@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <div>
       <h1>Vote for the current election or close it: {id}</h1>
-      <VoteBoard id={id}/>
+      <VoteBoard id={id} />
     </div>
   );
 }
