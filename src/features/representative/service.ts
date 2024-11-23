@@ -22,7 +22,7 @@ export const createService = (db: Db) => {
     getAllPublicVotersByRepresentative: async (id: number) => {
       const publicVoters = await db.select().from(publicVotersTable)
       .where(eq(publicVotersTable.representative_id, id));
-      
+
       return publicVoters;
     }
   };

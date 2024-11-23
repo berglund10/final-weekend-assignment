@@ -25,6 +25,14 @@ export const createService = (db: Db) => {
         .from(alternativesTable)
         .where(eq(alternativesTable.election_id, election_id));
     },
+    getAlternativeNameById: async (id: number) => {
+      const alternative = await db
+        .select()
+        .from(alternativesTable)
+        .where(eq(alternativesTable.id, id));
+        
+        return alternative[0].name;
+    },
     getAlternativesForRepresentative: async (election_id: number, representative_id: number) => {
       const alternative = await db.select().from(votesTable).where(
         and(

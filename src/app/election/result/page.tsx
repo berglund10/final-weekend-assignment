@@ -10,15 +10,16 @@ export default async function Page({
 
   const representativeOneAlternative = await electionService.getAlternativesForRepresentative(Number(id), 1);
 
-  const publicVotersRep1 = await representativeService.getAllPublicVotersByRepresentative(1);
+  const publicVoters = await representativeService.getAllPublicVotersByRepresentative(1);
 
-  const voterIds = publicVotersRep1.map(voter => voter.id);
+  const voterIds = publicVoters.map(voter => voter.id);
 
   const alternatives = await electionService.getAlternatives(Number(id));
 
+  
   return (
   <>
-  For election id:  {id}
+  STATS for election id:  {id}
   <br/>
   Total public votes:
 
@@ -26,7 +27,7 @@ export default async function Page({
     return <p key={a.id}>{a.name} {await electionService.getVotesForAlternative(Number(id), voterIds, a.id)}</p>
   })}
 
-  Representative: 1 voted for alternaive number: {representativeOneAlternative}
+  Representative: 1 voted for {await electionService.getAlternativeNameById(representativeOneAlternative)} with {voterIds.length} votes 
 
   </>
   );
