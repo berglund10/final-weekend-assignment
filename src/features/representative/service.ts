@@ -1,13 +1,10 @@
-const db = [
-  { id: "1", name: "AB", email: "AB@com" },
-  { id: "2", name: "JB", email: "JB@com" },
-  { id: "3", name: "VB", email: "VB@com" },
-];
+import { Db } from "@/db/instance";
+import { representativeTable } from "./schema";
 
-export const createService = () => {
+export const createService = (db: Db) => {
   return {
     getAll: async () => {
-      return await db;
+      return await db.select().from(representativeTable);
     },
     add: async (data: any) => {
       console.log(data);
