@@ -2,7 +2,6 @@
 import Link from "next/link";
 
 import {
-  doneElectionAction,
   postElectionAction,
 } from "@/features/election/actions";
 
@@ -34,9 +33,9 @@ export function ElectionBoard({ elections }: Props) {
                 Show Result
               </Link>
             ) : (
-              <button onClick={() => doneElectionAction(election.id)}>
-                close
-              </button>
+              <Link href={`/election/vote?id=${election.id}`}>
+                Vote 
+              </Link>
             )}
           </div>
         );

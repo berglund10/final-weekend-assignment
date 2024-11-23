@@ -28,5 +28,9 @@ export const createService = () => {
         return null;
       }
     },
+    getById: async (id: string) => {
+      const item = db.find((election) => election.id === id);
+      return item || null;
+    }
   };
 };
