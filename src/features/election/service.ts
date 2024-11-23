@@ -9,7 +9,6 @@ export const createService = (db: Db) => {
     },
 
     addElection: async (rawData: any) => {
-      //const representative = representativeSchema.parse(rawData);
       const data = await db.insert(electionTable).values(rawData).returning();
       return data[0];
     },
@@ -73,6 +72,12 @@ export const createService = (db: Db) => {
           election_id: electionId,
           alternative_id: alternativeId
         });
+    },
+    finishElection: async (electionId: number) => {
+      await db
+      .update(electionTable)
+      .set({ done: true })
+      .where(eq(electionTable.id, electionId));
     }
   };
 };

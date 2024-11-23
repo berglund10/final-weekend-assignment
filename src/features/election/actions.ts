@@ -30,3 +30,11 @@ export const selectAction = async (election_id: number, alternativeId: number) =
 
   revalidatePath("/election");
 }
+
+export const FinishElectionAction = async (election_id: number) => {
+
+  await electionService.finishElection(election_id);
+
+  revalidatePath("/election");
+
+}

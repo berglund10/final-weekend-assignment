@@ -1,6 +1,7 @@
-import { selectAction } from "@/features/election/actions";
+import { FinishElectionAction, selectAction } from "@/features/election/actions";
 import { electionService } from "@/features/election/instance";
 import { AlternativeButton } from "@/features/election/ui/alternative-button";
+import { FinishElectionButton } from "@/features/election/ui/finish-election-button";
 
 export default async function Page({
   searchParams,
@@ -27,7 +28,7 @@ export default async function Page({
           );
         })}
       </div>
-      <FinishElectionButton/>
+      <FinishElectionButton electionId={Number(id)} finishAction={FinishElectionAction}/>
     </>
   );
 }
