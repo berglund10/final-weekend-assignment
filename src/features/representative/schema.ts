@@ -8,7 +8,6 @@ export const representativeTable = pgTable("representative", {
 
 export const publicVotersTable = pgTable("public_voters", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar().notNull(),
   representative_id: integer()
     .notNull()
     .references(() => representativeTable.id),
