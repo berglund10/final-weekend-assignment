@@ -1,20 +1,19 @@
 import { postRepresentativeAction } from "@/features/representative/actions";
 import { representativeService } from "@/features/representative/instance";
+import { VoteBoard } from "@/features/representative/ui/vote-board";
 
 export default async function Page() {
   //await representativeService.add();
 
-  const all = await representativeService.getAll();
-  console.log(all);
+  const representatives = await representativeService.getAll();
   //Call service getAll
   //Call service.add (post)
 
   return (
     <>
       This is the representative page{" "}
-      {all.map((data) => {
-        return <p key={data.email}>{data.name}</p>;
-      })}
+      <VoteBoard representative={representatives}/>
+
       <form action={postRepresentativeAction}>
         <input
           type="text"

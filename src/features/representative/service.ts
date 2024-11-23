@@ -1,5 +1,5 @@
 import { Db } from "@/db/instance";
-import { representativeTable } from "./schema";
+import { publicVotersTable, representativeTable } from "./schema";
 import { Representative, representativeSchema } from "./validation";
 
 export const createService = (db: Db) => {
@@ -12,9 +12,12 @@ export const createService = (db: Db) => {
 
       await db.insert(representativeTable).values(representative);
     },
-    vote: async (id: string) => {
-      console.log("VOTED FOR :" + id);
-      //where id is === id. vote
+    vote: async (id: number) => {
+      await db.insert(publicVotersTable).values({
+        representative_id: id,
+        name: "New Voter",
+      });
+      console.log("VOTED!");
     },
   };
 };
