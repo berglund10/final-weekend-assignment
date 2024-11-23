@@ -14,8 +14,7 @@ export const createService = (db: Db) => {
     },
     vote: async (id: number) => {
       await db.insert(publicVotersTable).values({
-        representative_id: id,
-        name: "New Voter",
+        representative_id: id
       });
       console.log("VOTED!");
     },
