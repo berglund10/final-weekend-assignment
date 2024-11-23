@@ -1,6 +1,6 @@
 import { Db } from "@/db/instance";
-import { alternativesTable, electionTable } from "./schema";
-import { eq } from "drizzle-orm/pg-core/expressions";
+import { alternativesTable, electionTable, votesTable } from "./schema";
+import { and, eq, inArray } from "drizzle-orm/pg-core/expressions";
 
 export const createService = (db: Db) => {
   return {
@@ -25,6 +25,15 @@ export const createService = (db: Db) => {
         .from(alternativesTable)
         .where(eq(alternativesTable.election_id, election_id));
     },
+    getAlternativesForRepresentative: async (election_id: number, representative_id: number) => {
+      const alternative = await db.select().from(votesTable).where(
+        and(
+          eq(votesTable.election_id, election_id),
+          eq(votesTable.representative_id, representative_id)
+        )
+      )
+      return alternative[0].alternative_id;
+    },
 
     getById: async (id: number) => {
       const election = await db
@@ -34,6 +43,19 @@ export const createService = (db: Db) => {
         .limit(1);
 
       return election[0];
+    },
+    getVotesForAlternative: async (election_id: number, voterIds: number[], alternative_id: number) => {
+      const votesForAlternative = await db.select()
+        .from(votesTable)
+        .where(
+          and(
+            eq(votesTable.election_id, election_id),
+            eq(votesTable.alternative_id, alternative_id),
+            inArray(votesTable.voter_id, voterIds)
+          )
+        );
+
+      return votesForAlternative.length;
     },
   };
 };
