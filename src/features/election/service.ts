@@ -14,16 +14,16 @@ export const createService = (db: Db) => {
       return data[0];
     },
     addAlternative: async (election_id: number, alternative: string) => {
-      // Gör ett API-anrop eller en databasoperation för att lägga till alternativet
       await db.insert(alternativesTable).values({
         election_id,
         name: alternative,
       });
     },
     getAlternatives: async (election_id: number) => {
-      return await db.select()
-      .from(alternativesTable)
-      .where(eq(alternativesTable.election_id, election_id));
+      return await db
+        .select()
+        .from(alternativesTable)
+        .where(eq(alternativesTable.election_id, election_id));
     },
 
     getById: async (id: number) => {

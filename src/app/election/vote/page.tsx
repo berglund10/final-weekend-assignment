@@ -1,4 +1,6 @@
+import { selectAction } from "@/features/election/actions";
 import { electionService } from "@/features/election/instance";
+import { AlternativeButton } from "@/features/election/ui/alternative-button";
 
 export default async function Page({
   searchParams,
@@ -7,13 +9,24 @@ export default async function Page({
 }) {
   const id = (await searchParams).id;
   const alt = await electionService.getAlternatives(Number(id));
-  console.log(alt);
+
   return (
-  <>
-  Election {id}
-  Alternatives
-  {alt.map((alt) => {
-    return <p key={alt.alternative_id}>{alt.name}</p>
-  })}
-  </>)
+    <>
+      <h1>Election {id}</h1>
+      <h2>Alternatives</h2>
+      <div>
+        {alt.map((alternative) => {
+          return (
+            <AlternativeButton
+              key={alternative.alternative_id}
+              alternativeId={alternative.alternative_id}
+              alternativeName={alternative.name}
+              selectAction={selectAction}
+              electionId={Number(id)}
+            />
+          );
+        })}
+      </div>
+    </>
+  );
 }
