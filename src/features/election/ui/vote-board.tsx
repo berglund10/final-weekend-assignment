@@ -1,6 +1,6 @@
 import { electionService } from "../instance";
 
-export async function VoteBoard({ id }: { id: string }) {
+export function VoteBoard({ id }: { id: string }) {
   //const election = await electionService.getById(Number(id));
   //console.log(election);
 

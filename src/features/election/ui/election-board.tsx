@@ -25,7 +25,6 @@ export function ElectionBoard({ elections }: Props) {
     setAlternatives([...alternatives, ""]);
   };
 
-
   return (
     <>
       {elections.map((election) => {

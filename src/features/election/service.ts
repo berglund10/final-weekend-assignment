@@ -10,7 +10,7 @@ export const createService = (db: Db) => {
 
     addElection: async (rawData: any) => {
       //const representative = representativeSchema.parse(rawData);
-      const data = await db.insert(electionTable).values(rawData).returning();;
+      const data = await db.insert(electionTable).values(rawData).returning();
       return data[0];
     },
     addAlternative: async (election_id: number, alternative: string) => {
@@ -25,9 +25,9 @@ export const createService = (db: Db) => {
       const election = await db
         .select()
         .from(electionTable)
-        .where(eq(electionTable.id, id)) 
+        .where(eq(electionTable.id, id))
         .limit(1);
-    
+
       return election[0];
     },
   };

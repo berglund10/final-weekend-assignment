@@ -12,8 +12,7 @@ export default async function Page() {
   return (
     <>
       This is the representative page{" "}
-      <VoteBoard representative={representatives}/>
-
+      <VoteBoard representative={representatives} />
       <form action={postRepresentativeAction}>
         <input
           type="text"

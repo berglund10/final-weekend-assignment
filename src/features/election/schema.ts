@@ -7,9 +7,9 @@ export const electionTable = pgTable("election", {
 });
 
 export const alternativesTable = pgTable("alternatives", {
-    alternative_id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    name: varchar().notNull(),
-    election_id: integer()
-      .notNull()
-      .references(() => electionTable.id),
-  });
+  alternative_id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  name: varchar().notNull(),
+  election_id: integer()
+    .notNull()
+    .references(() => electionTable.id),
+});
