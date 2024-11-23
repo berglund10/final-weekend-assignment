@@ -5,8 +5,8 @@ import { postElectionAction } from "@/features/election/actions";
 
 type Props = {
   elections: {
-    id: string;
-    type: string;
+    id: number;
+    description: string;
     done: boolean;
   }[];
 };
@@ -18,14 +18,13 @@ export function ElectionBoard({ elections }: Props) {
 
   return (
     <>
-      This is the election page!!
       {elections.map((election) => {
         return (
           <div
             key={election.id}
             style={{ display: "flex", alignItems: "center" }}
           >
-            <p style={{ marginRight: "10px" }}>{election.type}</p>
+            <p style={{ marginRight: "10px" }}>{election.description}</p>
             {election.done ? (
               <Link href={`/election/result?id=${election.id}`}>
                 Show Result

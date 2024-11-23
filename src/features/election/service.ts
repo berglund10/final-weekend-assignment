@@ -1,36 +1,26 @@
-import { v4 as uuidv4 } from "uuid";
+import { Db } from "@/db/instance";
+import { electionTable } from "./schema";
+import { eq } from "drizzle-orm/pg-core/expressions";
 
-const db = [
-  { id: uuidv4(), type: "Dog vs cat", done: true },
-  { id: uuidv4(), type: "Car vs bike", done: true },
-  { id: uuidv4(), type: "Jim Carrey vs Adam Sandler", done: false },
-];
-
-export const createService = () => {
+export const createService = (db: Db) => {
   return {
     getAll: async () => {
-      return await db;
+      return await db.select().from(electionTable);
     },
 
-    add: async (data: any) => {
-      console.log(data);
-      db.push(data);
-      return data;
+    add: async (rawData: any) => {
+      //const representative = representativeSchema.parse(rawData);
+      await db.insert(electionTable).values(rawData);
     },
 
-    done: async (id: string) => {
-      const index = db.findIndex((election) => election.id === id);
-
-      if (index !== -1) {
-        db[index].done = true;
-        return db[index];
-      } else {
-        return null;
-      }
-    },
-    getById: async (id: string) => {
-      const item = db.find((election) => election.id === id);
-      return item || null;
+    getById: async (id: number) => {
+      const election = await db
+        .select()
+        .from(electionTable)
+        .where(eq(electionTable.id, id)) 
+        .limit(1);
+    
+      return election[0];
     },
   };
 };
