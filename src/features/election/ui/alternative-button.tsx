@@ -6,20 +6,20 @@ type Props = {
   alternativeId: number;
   electionId: number;
   alternativeName: string;
-  selectAction: (alternativeId: number, electionId: number) => void;
+  selectVoteAction: (alternativeId: number, electionId: number) => void;
 };
 
 export function AlternativeButton({
   alternativeId,
   alternativeName,
-  selectAction,
+  selectVoteAction,
   electionId,
 }: Props) {
   return (
     <>
       <button
         className="btn btn-danger w-full max-w-xs"
-        onClick={() => selectAction(electionId, alternativeId)}
+        onClick={() => selectVoteAction(electionId, alternativeId)}
       >
         {alternativeName}
       </button>

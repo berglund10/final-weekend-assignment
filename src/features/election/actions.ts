@@ -23,7 +23,7 @@ export const postElectionAction = async (formData: FormData) => {
   revalidatePath("/election");
 };
 
-export const selectAction = async (
+export const selectVoteAction = async (
   election_id: number,
   alternativeId: number,
 ) => {

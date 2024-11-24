@@ -1,6 +1,6 @@
 import {
   FinishElectionAction,
-  selectAction,
+  selectVoteAction,
 } from "@/features/election/actions";
 import { electionService } from "@/features/election/instance";
 import { AlternativeButton } from "@/features/election/ui/alternative-button";
@@ -28,7 +28,7 @@ export default async function Page({
               key={alternative.id}
               alternativeId={alternative.id}
               alternativeName={alternative.name}
-              selectAction={selectAction}
+              selectVoteAction={selectVoteAction}
               electionId={Number(id)}
             />
           );
