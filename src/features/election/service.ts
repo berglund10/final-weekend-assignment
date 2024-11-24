@@ -53,7 +53,9 @@ export const createService = (db: Db) => {
     finishElection: async (electionId: number) => {
       await db
         .update(electionTable)
-        .set({ done: true })
+        .set({ done: true,
+          end_date: new Date()
+        })
         .where(eq(electionTable.id, electionId));
     },
     getVotesForRepresentativeInElection: async (

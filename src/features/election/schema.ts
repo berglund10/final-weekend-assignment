@@ -1,10 +1,12 @@
-import { boolean, integer, pgTable, varchar } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
 import { publicVotersTable } from "../representative/schema";
 
 export const electionTable = pgTable("election", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   description: varchar().notNull(),
   done: boolean().notNull().default(false),
+  start_date: timestamp().notNull().defaultNow(),
+  end_date: timestamp(),
 });
 
 export const alternativesTable = pgTable("alternatives", {
