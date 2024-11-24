@@ -7,7 +7,7 @@ type Props = {
   election_id: number;
 };
 
-const Representative = async ({ representative, election_id }: Props) => {
+export async function ElectionResult({ representative, election_id }: Props) {
   const votes = await electionService.getVotesForRepresentativeInElection(
     representative.id,
     election_id,
@@ -38,5 +38,3 @@ const Representative = async ({ representative, election_id }: Props) => {
     </p>
   );
 };
-
-export default Representative;

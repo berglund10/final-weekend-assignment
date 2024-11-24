@@ -1,7 +1,6 @@
 import { electionService } from "@/features/election/instance";
-
+import { ElectionResult } from "@/features/election/ui/election-result";
 import { representativeService } from "@/features/representative/instance";
-import Representative from "@/features/representative/ui/representative";
 
 export default async function Page({
   searchParams,
@@ -33,7 +32,7 @@ export default async function Page({
         {representatives.map((rep) => {
           return (
             <div key={rep.id} className="flex flex-col items-center">
-              <Representative
+              <ElectionResult
                 key={rep.id}
                 representative={rep}
                 election_id={Number(id)}
