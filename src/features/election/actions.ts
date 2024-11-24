@@ -38,7 +38,7 @@ export const selectVoteAction = async (
     alternativeId,
   );
 
-  revalidatePath("/election");
+  redirect("/election");
 };
 
 export const FinishElectionAction = async (election_id: number) => {
