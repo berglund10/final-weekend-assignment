@@ -12,12 +12,10 @@ const Representative = async ({ representative, election_id }: Props) => {
     representative.id,
     election_id,
   );
-  console.log(votes);
 
-  // Om votes[0]?.alternative_id är undefined, sätt alternativeName till "No vote"
   const alternativeName = votes[0]?.alternative_id
     ? await electionService.getAlternativeNameById(votes[0].alternative_id)
-    : "no vote"; // Här kan du byta till '0' om du vill visa 0 istället för "No vote"
+    : "no vote";
 
   const publicPref =
     await electionService.getPublicPreferencesForRepresentativeInElection(
