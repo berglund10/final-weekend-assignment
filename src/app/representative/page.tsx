@@ -3,33 +3,40 @@ import { representativeService } from "@/features/representative/instance";
 import { VoteBoard } from "@/features/representative/ui/vote-board";
 
 export default async function Page() {
-  //await representativeService.add();
-
   const representatives = await representativeService.getAll();
-  //Call service getAll
-  //Call service.add (post)
 
   return (
-    <>
-      This is the representative page{" "}
+    <div className="flex flex-col items-center justify-center p-8 space-y-8">
+      <h1 className="text-4xl font-bold text-center text-gray-800">
+        Representatives
+      </h1>
+
       <VoteBoard representative={representatives} />
-      <form action={postRepresentativeAction}>
-        <input
-          type="text"
-          name="name"
-          placeholder="name here"
-          className="input input-bordered w-full max-w-xs"
-        />
-        <input
-          type="text"
-          name="email"
-          placeholder="Email here"
-          className="input input-bordered w-full max-w-xs"
-        />
-        <button type="submit" className="btn btn-ghost">
-          Send
-        </button>
-      </form>
-    </>
+      <div className="w-full max-w-xs mt-8">
+        <h3 className="text-xl font-semibold text-center text-gray-800 mb-4">
+          Add New Representative
+        </h3>
+        <form action={postRepresentativeAction} className="space-y-4">
+          <input
+            type="text"
+            name="name"
+            placeholder="Name here"
+            className="input input-bordered w-full"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email here"
+            className="input input-bordered w-full"
+          />
+          <button
+            type="submit"
+            className="btn btn-primary w-full"
+          >
+            Add Representative
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
