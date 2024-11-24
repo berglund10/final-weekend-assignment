@@ -2,6 +2,7 @@ import { Db } from "@/db/instance";
 import { alternativesTable, electionTable, electionVotesTable, publicPreferencesVotesTable } from "./schema";
 import { and, eq, inArray } from "drizzle-orm/pg-core/expressions";
 import { publicVotersTable } from "../representative/schema";
+import { count } from "drizzle-orm";
 
 export const createService = (db: Db) => {
   return {
@@ -98,7 +99,7 @@ export const createService = (db: Db) => {
         .where(
           and(
             eq(publicVotersTable.representative_id, representativeId),
-            eq(electionVotesTable.election_id, electionId)
+            eq(electionVotesTable.election_id, electionId),
           )
         );
     
@@ -145,6 +146,33 @@ export const createService = (db: Db) => {
       }
       
     },
+    getVoteCount: async (election_id: number) => {
+      
+      const alternatives = await db
+      .select({ alternative_id: alternativesTable.id, name: alternativesTable.name })
+      .from(alternativesTable)
+      .where(eq(alternativesTable.election_id, election_id));
 
-  };
-};
+
+        const voteCounts = await db
+          .select({
+            alternative_id: electionVotesTable.alternative_id,
+            vote_count: count(electionVotesTable.id).as('vote_count')
+          })
+          .from(electionVotesTable)
+          .where(eq(electionVotesTable.election_id, election_id))
+          .groupBy(electionVotesTable.alternative_id);
+
+          const result = alternatives.map((alt) => {
+            const vote = voteCounts.find(vote => vote.alternative_id === alt.alternative_id);
+            return {
+              alternative_id: alt.alternative_id,
+              name: alt.name,
+              vote_count: vote ? vote.vote_count : 0,
+            };
+          });
+        
+        return result;
+    },
+  }
+}
