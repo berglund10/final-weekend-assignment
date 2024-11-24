@@ -11,6 +11,10 @@ export default async function Page() {
         Representatives
       </h1>
 
+      <h2 className="text-2xl font-semibold text-center text-gray-600">
+      Click on a representative to cast your public vote
+      </h2>
+
       <VoteBoard representative={representatives} />
       <div className="w-full max-w-xs mt-8">
         <form action={postRepresentativeAction} className="space-y-4">
