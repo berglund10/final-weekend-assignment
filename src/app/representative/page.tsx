@@ -7,7 +7,7 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col items-center justify-center p-8 space-y-8">
-      <h1 className="text-4xl font-bold text-center text-gray-800">
+      <h1 className="text-4xl font-bold text-center">
         Representatives
       </h1>
 
@@ -23,15 +23,17 @@ export default async function Page() {
             name="name"
             placeholder="Name here"
             className="input input-bordered w-full"
+            required
           />
           <input
             type="email"
             name="email"
             placeholder="Email here"
             className="input input-bordered w-full"
+            required
           />
-          <button type="submit" className="btn btn-primary w-full">
-            Add Representative
+          <button type="submit" className="btn btn-primary w-full text-white text-2xl flex items-center justify-center hover:bg-blue-600">
+            +
           </button>
         </form>
       </div>

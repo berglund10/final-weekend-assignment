@@ -17,7 +17,7 @@ export default function Home() {
           </button>
         </Link>
         <Link href="/election">
-          <button className="bg-green-500 text-white py-2 px-6 rounded hover:bg-green-600">
+          <button className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600">
             See Elections
           </button>
         </Link>
