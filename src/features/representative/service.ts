@@ -1,6 +1,7 @@
 import { Db } from "@/db/instance";
 import { publicVotersTable, representativeTable } from "./schema";
 import { Representative, representativeSchema } from "./validation";
+import { eq } from "drizzle-orm";
 
 export const createService = (db: Db) => {
   return {
@@ -17,5 +18,11 @@ export const createService = (db: Db) => {
         representative_id: id,
       });
     },
+    getAllPublicVotersById: async (representativeId: number) => {
+      return await 
+      db.select()
+      .from(publicVotersTable)
+      .where(eq(publicVotersTable.representative_id, representativeId));
+    }
   };
 };

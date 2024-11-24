@@ -21,6 +21,11 @@ export default function Home() {
             Elections
           </button>
         </Link>
+        <Link href="/public-preferences">
+          <button className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600">
+            Public preferences
+          </button>
+        </Link>
       </div>
     </div>
   );

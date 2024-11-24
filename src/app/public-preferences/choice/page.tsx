@@ -1,9 +1,16 @@
+import { representativeService } from "@/features/representative/instance";
+
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const id = (await searchParams).id;
+
+  const publicVoters = await representativeService.getAllPublicVotersById(Number(id));
+  console.log(publicVoters);
+  //get all public voters where represntant id = 1;
+
 
 
   return (
