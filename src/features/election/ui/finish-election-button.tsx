@@ -14,7 +14,7 @@ export function FinishElectionButton({ electionId, finishAction }: Props) {
         onClick={() => finishAction(electionId)}
         className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition-all"
       >
-        End Election
+        Close
       </button>
     </div>
   );
