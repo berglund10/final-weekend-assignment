@@ -83,7 +83,7 @@ export function ElectionBoard({ elections }: Props) {
           <button
             type="button"
             onClick={addAlternativeField}
-            className="btn btn-ghost text-gray-600 px-4 py-2 rounded-lg border"
+            className="btn btn-ghost text-gray-600 px-4 py-2 rounded-lg border ml-auto"
           >
             Add Alternative
           </button>
