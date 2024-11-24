@@ -226,7 +226,7 @@ const seedGoatFootballersElection = async () => {
     .insert(electionTable)
     .values({
       description: "Who is the greatest footballer of all time?",
-      done: true,
+      done: false,
     })
     .returning();
 
@@ -361,7 +361,7 @@ const seedTransportationElection = async () => {
   const taxFundedAlternative = await db
     .insert(alternativesTable)
     .values({
-      name: "YES",
+      name: "Publicly funded",
       election_id: electionId,
     })
     .returning();
@@ -369,7 +369,7 @@ const seedTransportationElection = async () => {
   const userFundedAlternative = await db
     .insert(alternativesTable)
     .values({
-      name: "NO",
+      name: "Privately funded",
       election_id: electionId,
     })
     .returning();
