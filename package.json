@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "seed": "tsx src/features/election/seed.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
