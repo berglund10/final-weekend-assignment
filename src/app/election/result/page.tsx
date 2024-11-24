@@ -28,7 +28,7 @@ export default async function Page({
         <strong>{winner.vote_count}</strong> votes!
       </p>
       <p className="text-md text-center text-gray-600">
-        The election ended
+        The election ended &nbsp;
         {election.end_date
           ? new Date(election.end_date).toLocaleDateString()
           : "N/A"}
