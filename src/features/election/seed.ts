@@ -206,7 +206,6 @@ const seedSchoolsElection = async () => {
 };
 
 const seedGoatFootballersElection = async () => {
-
   const lenaVoters = await db
     .insert(publicVotersTable)
     .values([...Array(15).fill({ representative_id: 3 })])
@@ -332,7 +331,6 @@ const seedGoatFootballersElection = async () => {
 };
 
 const seedTransportationElection = async () => {
-
   const lenaVoters = await db
     .insert(publicVotersTable)
     .values([...Array(15).fill({ representative_id: 3 })])
@@ -429,8 +427,6 @@ const seedTransportationElection = async () => {
 
   await db.insert(publicPreferencesVotesTable).values(publicPreferences);
 };
-
-
 
 (async () => {
   await seedCatsAndDogsElection();

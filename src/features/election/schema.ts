@@ -1,7 +1,5 @@
 import { boolean, integer, pgTable, varchar } from "drizzle-orm/pg-core";
-import {
-  publicVotersTable,
-} from "../representative/schema";
+import { publicVotersTable } from "../representative/schema";
 
 export const electionTable = pgTable("election", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),

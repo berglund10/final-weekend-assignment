@@ -122,8 +122,6 @@ export const createService = (db: Db) => {
         }));
 
         await db.insert(electionVotesTable).values(insertData);
-      } else {
-        return { message: "No public voters found for this representative." };
       }
     },
     getVoteCount: async (election_id: number) => {

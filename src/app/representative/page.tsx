@@ -7,9 +7,7 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col items-center justify-center p-8 space-y-8">
-      <h1 className="text-4xl font-bold text-center">
-        Representatives
-      </h1>
+      <h1 className="text-4xl font-bold text-center">Representatives</h1>
 
       <h2 className="text-2xl font-semibold text-center text-gray-600">
         Click on a representative to cast your public vote
@@ -32,7 +30,10 @@ export default async function Page() {
             className="input input-bordered w-full"
             required
           />
-          <button type="submit" className="btn btn-primary w-full text-white text-2xl flex items-center justify-center hover:bg-blue-600">
+          <button
+            type="submit"
+            className="btn btn-primary w-full text-white text-2xl flex items-center justify-center hover:bg-blue-600"
+          >
             +
           </button>
         </form>
