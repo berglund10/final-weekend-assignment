@@ -35,6 +35,8 @@ const seedCatsAndDogsElection = async () => {
     .values({
       description: "Should Cats or Dogs be allowed in the office?",
       done: true,
+      start_date: new Date("2018-10-27"),
+      end_date: new Date("2019-01-01"),
     })
     .returning();
 
@@ -128,6 +130,8 @@ const seedSchoolsElection = async () => {
     .values({
       description: "Should schools be publicly funded or privately funded?",
       done: true,
+      start_date: new Date("2008-02-10"),
+      end_date: new Date("2010-01-01"),
     })
     .returning();
 
@@ -226,6 +230,7 @@ const seedGoatFootballersElection = async () => {
     .values({
       description: "Who is the greatest footballer of all time?",
       done: false,
+      start_date: new Date("2024-01-02")
     })
     .returning();
 
@@ -350,7 +355,9 @@ const seedTransportationElection = async () => {
     .insert(electionTable)
     .values({
       description: "Should public transportation be tax-funded?",
-      done: false,
+      done: true,
+      start_date: new Date("2023-10-5"),
+      end_date: new Date("2023-12-5")
     })
     .returning();
 
