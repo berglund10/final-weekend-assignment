@@ -8,6 +8,7 @@ import {
 import { and, eq } from "drizzle-orm/pg-core/expressions";
 import { publicVotersTable } from "../representative/schema";
 import { count } from "drizzle-orm";
+import { Election, electionSchema } from "./validation";
 
 export const createService = (db: Db) => {
   return {
@@ -15,8 +16,9 @@ export const createService = (db: Db) => {
       return await db.select().from(electionTable);
     },
 
-    addElection: async (rawData: any) => {
-      const data = await db.insert(electionTable).values(rawData).returning();
+    addElection: async (rawData: Election) => {
+      const election = electionSchema.parse(rawData);
+      const data = await db.insert(electionTable).values(election).returning();
       return data[0];
     },
     getElectionNameById: async (id: number) => {
@@ -120,7 +122,6 @@ export const createService = (db: Db) => {
         }));
 
         await db.insert(electionVotesTable).values(insertData);
-        return { message: "Votes successfully registered for representative." };
       } else {
         return { message: "No public voters found for this representative." };
       }
