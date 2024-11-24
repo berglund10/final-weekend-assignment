@@ -1,6 +1,7 @@
 import { Db } from "@/db/instance";
-import { alternativesTable, electionTable, votesTable } from "./schema";
+import { alternativesTable, electionTable, electionVotesTable } from "./schema";
 import { and, eq, inArray } from "drizzle-orm/pg-core/expressions";
+import { publicVotersTable } from "../representative/schema";
 
 export const createService = (db: Db) => {
   return {
@@ -33,11 +34,8 @@ export const createService = (db: Db) => {
         return alternative[0].name;
     },
     getAlternativesForRepresentative: async (election_id: number, representative_id: number) => {
-      const alternative = await db.select().from(votesTable).where(
-        and(
-          eq(votesTable.election_id, election_id),
-          eq(votesTable.representative_id, representative_id)
-        )
+      const alternative = await db.select().from(electionVotesTable).where(
+          eq(electionVotesTable.election_id, election_id),
       )
       return alternative[0].alternative_id;
     },
@@ -51,24 +49,34 @@ export const createService = (db: Db) => {
 
       return election[0];
     },
-    getVotesForAlternative: async (election_id: number, voterIds: number[], alternative_id: number) => {
+    getVotesForAlternativeInArray: async (election_id: number, voterIds: number[], alternative_id: number) => {
       const votesForAlternative = await db.select()
-        .from(votesTable)
+        .from(electionVotesTable)
         .where(
           and(
-            eq(votesTable.election_id, election_id),
-            eq(votesTable.alternative_id, alternative_id),
-            inArray(votesTable.voter_id, voterIds)
+            eq(electionVotesTable.election_id, election_id),
+            eq(electionVotesTable.alternative_id, alternative_id),
+            inArray(electionVotesTable.voter_id, voterIds)
           )
         );
 
       return votesForAlternative.length;
     },
+    getVotesForAlternative: async (election_id: number, alternative_id: number) => {
+      const votesForAlternative = await db.select()
+      .from(electionVotesTable)
+      .where(
+        and(
+          eq(electionVotesTable.election_id, election_id),
+          eq(electionVotesTable.alternative_id, alternative_id)
+        )
+      )
+      return votesForAlternative;
+    },
     postVote: async (representativeId: number, electionId: number, alternativeId: number) => {
       await db
-        .insert(votesTable)
+        .insert(electionVotesTable)
         .values({
-          representative_id: representativeId,
           election_id: electionId,
           alternative_id: alternativeId
         });
@@ -78,6 +86,31 @@ export const createService = (db: Db) => {
       .update(electionTable)
       .set({ done: true })
       .where(eq(electionTable.id, electionId));
+    },
+    registerRepresentativeVotes: async (representative_id: number, election_id: number, alternative_id: number) => {
+      
+      const publicVoters = 
+      await db
+      .select({id: publicVotersTable.id})
+      .from(publicVotersTable)
+      .where(eq(publicVotersTable.representative_id, representative_id));
+
+      const publicVoteIds = publicVoters.map(voter => voter.id);
+
+      if (publicVoteIds.length > 0) {
+        const insertData = publicVoteIds.map(voterId => ({
+          voter_id: voterId,
+          election_id: election_id,
+          alternative_id: alternative_id,
+        }));
+  
+        await db.insert(electionVotesTable).values(insertData);
+        return { message: 'Votes successfully registered for representative.' };
+      } else {
+        return { message: 'No public voters found for this representative.' };
+      }
+      
+
     }
   };
 };
