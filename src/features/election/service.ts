@@ -12,7 +12,7 @@ import { Election, electionSchema } from "./validation";
 
 export const createService = (db: Db) => {
   return {
-    getAll: async () => {
+    getAllElections: async () => {
       return await db.select().from(electionTable);
     },
 
@@ -21,13 +21,13 @@ export const createService = (db: Db) => {
       const data = await db.insert(electionTable).values(election).returning();
       return data[0];
     },
-    getElectionNameById: async (id: number) => {
+    getElectionById: async (id: number) => {
       const election = await db
         .select()
         .from(electionTable)
         .where(eq(electionTable.id, id));
 
-      return election[0].description;
+      return election[0];
     },
     addAlternative: async (election_id: number, alternative: string) => {
       await db.insert(alternativesTable).values({
@@ -53,9 +53,7 @@ export const createService = (db: Db) => {
     finishElection: async (electionId: number) => {
       await db
         .update(electionTable)
-        .set({ done: true,
-          end_date: new Date()
-        })
+        .set({ done: true, end_date: new Date() })
         .where(eq(electionTable.id, electionId));
     },
     getVotesForRepresentativeInElection: async (

@@ -13,12 +13,12 @@ export default async function Page({
 }) {
   const id = (await searchParams).id;
   const alternatives = await electionService.getAlternatives(Number(id));
-  const electionName = await electionService.getElectionNameById(Number(id));
+  const election = await electionService.getElectionById(Number(id));
 
   return (
     <div className="flex flex-col items-center justify-center p-8 space-y-8">
       <h1 className="text-4xl font-bold text-center text-gray-800">
-        {electionName}
+        {election.description}
       </h1>
 
       <div className="flex flex-col items-center space-y-4">

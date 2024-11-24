@@ -2,7 +2,7 @@ import { electionService } from "@/features/election/instance";
 import { ElectionBoard } from "@/features/election/ui/election-board";
 
 export default async function Page() {
-  const elections = await electionService.getAll();
+  const elections = await electionService.getAllElections();
 
   return (
     <div className="flex flex-col items-center justify-center p-8 space-y-8">
