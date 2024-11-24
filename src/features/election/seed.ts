@@ -1,204 +1,214 @@
 import { db } from "@/db/instance";
-import { electionTable, alternativesTable, votesTable } from "./schema";
+import {
+  electionTable,
+  alternativesTable,
+  electionVotesTable,
+  publicPreferencesVotesTable,
+} from "./schema";
 import {
   publicVotersTable,
   representativeTable,
 } from "../representative/schema";
 
-const seedRepresentativesAndVoters = async () => {
+const seedCatsAndDogsElection = async () => {
   const representatives = [
-    { name: "Arne Johansson", email: "ajn@se" },
-    { name: "Ingrid Nilsson", email: "in@se" },
-    { name: "Kurt Persson", email: "kp@se" },
+    { name: "Andrea", email: "andrea@example.com" },
+    { name: "Beatrice", email: "beatrice@example.com" },
   ];
 
   for (const rep of representatives) {
     await db.insert(representativeTable).values(rep);
   }
 
-  const voters = [
-    { representative_id: 1 },
-    { representative_id: 1 },
-    { representative_id: 1 },
-    { representative_id: 1 },
-    { representative_id: 1 },
-    { representative_id: 1 },
-    { representative_id: 2 },
-    { representative_id: 2 },
-    { representative_id: 2 },
-    { representative_id: 2 },
-  ];
+  const andreaVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(10).fill({ representative_id: 1 })])
+    .returning();
 
-  for (const voter of voters) {
-    await db.insert(publicVotersTable).values(voter);
-  }
-};
+  const beatriceVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(20).fill({ representative_id: 2 })])
+    .returning();
 
-const seedElectricityElection = async () => {
   const election = await db
     .insert(electionTable)
     .values({
-      description:
-        "Electricity Supply: Should electricity be state-owned or privatized?",
+      description: "Should Cats or Dogs be allowed in the office?",
       done: true,
     })
     .returning();
 
   const electionId = election[0].id;
 
-  const stateOwnedAlternative = await db
+  const catsAlternative = await db
     .insert(alternativesTable)
     .values({
-      name: "State-controlled electricity to ensure stability and sustainability",
+      name: "Cats",
       election_id: electionId,
     })
     .returning();
 
-  const privatizedAlternative = await db
+  const dogsAlternative = await db
     .insert(alternativesTable)
     .values({
-      name: "Privatized electricity with market competition to reduce prices",
+      name: "Dogs",
       election_id: electionId,
     })
     .returning();
 
-  const stateOwnedId = stateOwnedAlternative[0].id;
-  const privatizedId = privatizedAlternative[0].id;
+  const catsId = catsAlternative[0].id;
+  const dogsId = dogsAlternative[0].id;
 
-  await db.insert(votesTable).values([
-    {
-      voter_id: 1,
-      representative_id: 1,
+  const electionVotes = [
+    ...andreaVoters.map((voter) => ({
+      voter_id: voter.id,
       election_id: electionId,
-      alternative_id: stateOwnedId,
-    },
-    {
-      voter_id: 2,
-      representative_id: 1,
-      election_id: electionId,
-      alternative_id: stateOwnedId,
-    },
-    {
-      voter_id: 3,
-      representative_id: 1,
-      election_id: electionId,
-      alternative_id: stateOwnedId,
-    },
-    {
-      voter_id: 4,
-      representative_id: 1,
-      election_id: electionId,
-      alternative_id: privatizedId,
-    },
-    {
-      voter_id: 5,
-      representative_id: 1,
-      election_id: electionId,
-      alternative_id: privatizedId,
-    },
-    {
-      voter_id: 6,
-      representative_id: 1,
-      election_id: electionId,
-      alternative_id: privatizedId,
-    },
-    {
-      voter_id: 7,
-      representative_id: 2,
-      election_id: electionId,
-      alternative_id: stateOwnedId,
-    },
-    {
-      voter_id: 8,
-      representative_id: 2,
-      election_id: electionId,
-      alternative_id: stateOwnedId,
-    },
-    {
-      voter_id: 9,
-      representative_id: 2,
-      election_id: electionId,
-      alternative_id: stateOwnedId,
-    },
-    {
-      voter_id: 10,
-      representative_id: 2,
-      election_id: electionId,
-      alternative_id: stateOwnedId,
-    },
-  ]);
+      alternative_id: catsId,
+    })),
 
-  console.log("Seed completed for electricity supply election");
+    ...beatriceVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: dogsId,
+    })),
+  ];
+
+  await db.insert(electionVotesTable).values(electionVotes);
+
+  const publicPreferences = [
+    ...andreaVoters.slice(0, 5).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: catsId,
+    })),
+    ...andreaVoters.slice(5, 10).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: dogsId,
+    })),
+
+    ...beatriceVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: catsId,
+    })),
+  ];
+
+  await db.insert(publicPreferencesVotesTable).values(publicPreferences);
 };
 
-/* const seedEducationElection = async () => {
+const seedSchoolsElection = async () => {
 
-    const election = await db.insert(electionTable).values({
-      description: 'Education Funding: Should education be publicly funded or privately funded?',
-      done: true,
-    }).returning();
-  
-    const electionId = election[0].id;
-  
-    const publicFundingAlternative = await db.insert(alternativesTable).values({
-      name: 'Publicly funded education to ensure equality and accessibility for all',
-      election_id: electionId,
-    }).returning();
-  
-    const privateFundingAlternative = await db.insert(alternativesTable).values({
-      name: 'Privately funded education with choice and competition',
-      election_id: electionId,
-    }).returning();
-  
-    const publicFundingId = publicFundingAlternative[0].id;
-    const privateFundingId = privateFundingAlternative[0].id;
-  
-    const voters = [
-      { representative_id: 1 },
-      { representative_id: 1 },
-      { representative_id: 1 },
-      { representative_id: 1 },
-      { representative_id: 1 },
-      { representative_id: 1 },
-      { representative_id: 2 },
-      { representative_id: 2 },
-      { representative_id: 2 },
-      { representative_id: 2 },
-    ];
-  
-    for (const voter of voters) {
-      await db.insert(publicVotersTable).values(voter);
-    }
-  
-    // Skapa röster för alternativen
-    await db.insert(votesTable).values([
-      { voter_id: 1, representative_id: 1, election_id: electionId, alternative_id: publicFundingId },
-      { voter_id: 2, representative_id: 1, election_id: electionId, alternative_id: publicFundingId },
-      { voter_id: 3, representative_id: 1, election_id: electionId, alternative_id: publicFundingId },
-      { voter_id: 4, representative_id: 1, election_id: electionId, alternative_id: privateFundingId },
-      { voter_id: 5, representative_id: 1, election_id: electionId, alternative_id: privateFundingId },
-      { voter_id: 6, representative_id: 1, election_id: electionId, alternative_id: privateFundingId },
-      { voter_id: 7, representative_id: 2, election_id: electionId, alternative_id: publicFundingId },
-      { voter_id: 8, representative_id: 2, election_id: electionId, alternative_id: publicFundingId },
-      { voter_id: 9, representative_id: 2, election_id: electionId, alternative_id: privateFundingId },
-      { voter_id: 10, representative_id: 2, election_id: electionId, alternative_id: privateFundingId },
-    ]);
-  
-    console.log('Seed completed for education funding election');
-  };
- */
-const startSeed = async () => {
-  try {
-    await seedRepresentativesAndVoters();
+  const representatives = [
+    { name: "Lena", email: "lena@example.com" },
+    { name: "Bengt", email: "bengt@example.com" },
+    { name: "Charles", email: "charles@example.com" },
+  ];
 
-    //await seedEducationElection();
-
-    await seedElectricityElection();
-
-    console.log("All seeds completed successfully.");
-  } catch (error) {
-    console.error("Error during seeding process:", error);
+  for (const rep of representatives) {
+    await db.insert(representativeTable).values(rep);
   }
+
+  const lenaVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(10).fill({ representative_id: 3 })])
+    .returning();
+
+  const bengtVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(20).fill({ representative_id: 4 })])
+    .returning();
+
+  const charlesVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(15).fill({ representative_id: 5 })])
+    .returning();
+
+  const election = await db
+    .insert(electionTable)
+    .values({
+      description: "Should schools be publicly funded or privately funded?",
+      done: true,
+    })
+    .returning();
+
+  const electionId = election[0].id;
+
+  const publicSchoolsAlternative = await db
+    .insert(alternativesTable)
+    .values({
+      name: "Publicly funded schools to ensure accessibility for all",
+      election_id: electionId,
+    })
+    .returning();
+
+  const privateSchoolsAlternative = await db
+    .insert(alternativesTable)
+    .values({
+      name: "Privately funded schools for improved quality and innovation",
+      election_id: electionId,
+    })
+    .returning();
+
+  const publicId = publicSchoolsAlternative[0].id;
+  const privateId = privateSchoolsAlternative[0].id;
+
+  const electionVotes = [
+    ...lenaVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: publicId,
+    })),
+    ...bengtVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: privateId,
+    })),
+    ...charlesVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: publicId,
+    })),
+  ];
+
+  await db.insert(electionVotesTable).values(electionVotes);
+
+  const publicPreferences = [
+    ...lenaVoters.slice(0, 5).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: publicId,
+    })),
+    ...lenaVoters.slice(5, 10).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: privateId,
+    })),
+
+    ...bengtVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: privateId,
+    })),
+    
+    ...charlesVoters.slice(0, 10).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: publicId,
+    })),
+    ...charlesVoters.slice(10, 15).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: privateId,
+    })),
+  ];
+
+  await db.insert(publicPreferencesVotesTable).values(publicPreferences);
 };
 
-startSeed();
+(async () => {
+  await seedCatsAndDogsElection();
+  await seedSchoolsElection();
+
+  console.log("Seeding completed for both elections.");
+})();
