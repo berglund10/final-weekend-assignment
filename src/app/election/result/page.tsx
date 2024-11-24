@@ -24,7 +24,7 @@ export default async function Page({
       </h1>
 
       <p className="text-xl text-center text-gray-600">
-        Winner: <strong>{winner.name}</strong> with
+        Winner: <strong>{winner.name}</strong> with{" "}
         <strong>{winner.vote_count}</strong> votes!
       </p>
       <p className="text-md text-center text-gray-600">

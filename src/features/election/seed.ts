@@ -230,7 +230,7 @@ const seedGoatFootballersElection = async () => {
     .values({
       description: "Who is the greatest footballer of all time?",
       done: false,
-      start_date: new Date("2024-01-02")
+      start_date: new Date("2024-01-02"),
     })
     .returning();
 
@@ -357,7 +357,7 @@ const seedTransportationElection = async () => {
       description: "Should public transportation be tax-funded?",
       done: true,
       start_date: new Date("2023-10-5"),
-      end_date: new Date("2023-12-5")
+      end_date: new Date("2023-12-5"),
     })
     .returning();
 
