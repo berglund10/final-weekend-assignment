@@ -12,7 +12,7 @@ type Props = {
 export function AlternativeButton({ alternativeId, alternativeName, selectAction, electionId }: Props) {
   return (
     <>
-    <button onClick={() => selectAction(electionId, alternativeId)}>
+    <button className="btn btn-danger w-full max-w-xs" onClick={() => selectAction(electionId, alternativeId)}>
     {alternativeName}
     </button>
     <br/>
