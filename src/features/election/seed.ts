@@ -136,7 +136,7 @@ const seedSchoolsElection = async () => {
   const publicSchoolsAlternative = await db
     .insert(alternativesTable)
     .values({
-      name: "Publicly funded schools to ensure accessibility for all",
+      name: "Publicly funded schools",
       election_id: electionId,
     })
     .returning();
@@ -144,7 +144,7 @@ const seedSchoolsElection = async () => {
   const privateSchoolsAlternative = await db
     .insert(alternativesTable)
     .values({
-      name: "Privately funded schools for improved quality and innovation",
+      name: "Privately funded schools",
       election_id: electionId,
     })
     .returning();
@@ -205,9 +205,238 @@ const seedSchoolsElection = async () => {
   await db.insert(publicPreferencesVotesTable).values(publicPreferences);
 };
 
+const seedGoatFootballersElection = async () => {
+
+  const lenaVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(15).fill({ representative_id: 3 })])
+    .returning();
+
+  const bengtVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(10).fill({ representative_id: 4 })])
+    .returning();
+
+  const charlesVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(20).fill({ representative_id: 5 })])
+    .returning();
+
+  const election = await db
+    .insert(electionTable)
+    .values({
+      description: "Who is the greatest footballer of all time?",
+      done: true,
+    })
+    .returning();
+
+  const electionId = election[0].id;
+
+  const maradonaAlternative = await db
+    .insert(alternativesTable)
+    .values({
+      name: "Diego Maradona",
+      election_id: electionId,
+    })
+    .returning();
+
+  const messiAlternative = await db
+    .insert(alternativesTable)
+    .values({
+      name: "Lionel Messi",
+      election_id: electionId,
+    })
+    .returning();
+
+  const baggioAlternative = await db
+    .insert(alternativesTable)
+    .values({
+      name: "Roberto Baggio",
+      election_id: electionId,
+    })
+    .returning();
+
+  const tottiAlternative = await db
+    .insert(alternativesTable)
+    .values({
+      name: "Francesco Totti",
+      election_id: electionId,
+    })
+    .returning();
+
+  const ronaldoAlternative = await db
+    .insert(alternativesTable)
+    .values({
+      name: "Ronaldo Fenomeno",
+      election_id: electionId,
+    })
+    .returning();
+
+  const maradonaId = maradonaAlternative[0].id;
+  const messiId = messiAlternative[0].id;
+  const baggioId = baggioAlternative[0].id;
+  const tottiId = tottiAlternative[0].id;
+  const ronaldoId = ronaldoAlternative[0].id;
+
+  const electionVotes = [
+    ...lenaVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: maradonaId,
+    })),
+    ...bengtVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: messiId,
+    })),
+    ...charlesVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: ronaldoId,
+    })),
+  ];
+
+  await db.insert(electionVotesTable).values(electionVotes);
+
+  const publicPreferences = [
+    ...lenaVoters.slice(0, 10).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: maradonaId,
+    })),
+    ...lenaVoters.slice(10, 15).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: baggioId,
+    })),
+
+    ...bengtVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: messiId,
+    })),
+
+    ...charlesVoters.slice(0, 10).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: ronaldoId,
+    })),
+    ...charlesVoters.slice(10, 20).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: tottiId,
+    })),
+  ];
+
+  await db.insert(publicPreferencesVotesTable).values(publicPreferences);
+};
+
+const seedTransportationElection = async () => {
+
+  const lenaVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(15).fill({ representative_id: 3 })])
+    .returning();
+
+  const bengtVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(10).fill({ representative_id: 4 })])
+    .returning();
+
+  const charlesVoters = await db
+    .insert(publicVotersTable)
+    .values([...Array(20).fill({ representative_id: 5 })])
+    .returning();
+
+  const election = await db
+    .insert(electionTable)
+    .values({
+      description: "Should public transportation be tax-funded?",
+      done: false,
+    })
+    .returning();
+
+  const electionId = election[0].id;
+
+  const taxFundedAlternative = await db
+    .insert(alternativesTable)
+    .values({
+      name: "YES",
+      election_id: electionId,
+    })
+    .returning();
+
+  const userFundedAlternative = await db
+    .insert(alternativesTable)
+    .values({
+      name: "NO",
+      election_id: electionId,
+    })
+    .returning();
+
+  const taxFundedId = taxFundedAlternative[0].id;
+  const userFundedId = userFundedAlternative[0].id;
+
+  const electionVotes = [
+    ...lenaVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: taxFundedId,
+    })),
+    ...bengtVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: userFundedId,
+    })),
+    ...charlesVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: taxFundedId,
+    })),
+  ];
+
+  await db.insert(electionVotesTable).values(electionVotes);
+
+  const publicPreferences = [
+    ...lenaVoters.slice(0, 10).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: taxFundedId,
+    })),
+    ...lenaVoters.slice(10, 15).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: userFundedId,
+    })),
+
+    ...bengtVoters.map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: userFundedId,
+    })),
+
+    ...charlesVoters.slice(0, 15).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: taxFundedId,
+    })),
+    ...charlesVoters.slice(15, 20).map((voter) => ({
+      voter_id: voter.id,
+      election_id: electionId,
+      alternative_id: userFundedId,
+    })),
+  ];
+
+  await db.insert(publicPreferencesVotesTable).values(publicPreferences);
+};
+
+
+
 (async () => {
   await seedCatsAndDogsElection();
   await seedSchoolsElection();
+  await seedGoatFootballersElection();
+  await seedTransportationElection();
 
-  console.log("Seeding completed for both elections.");
+  console.log("Seeding elections...");
 })();
