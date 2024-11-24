@@ -10,12 +10,19 @@ export default async function Page({
 }) {
   const id = (await searchParams).id;
   const alternatives = await electionService.getAlternatives(Number(id));
+  const electionName = await electionService.getElectionNameById(Number(id));
 
   return (
-    <>
-      <h1>Election {id}</h1>
-      <h2>Alternatives</h2>
-      <div>
+    <div className="flex flex-col items-center justify-center p-8 space-y-8">
+      <h1 className="text-4xl font-bold text-center text-gray-800">
+        {electionName}
+      </h1>
+
+      <h2 className="text-2xl font-semibold text-center text-gray-600">
+        Choose an alternative to vote
+      </h2>
+
+      <div className="flex flex-col items-center space-y-4">
         {alternatives.map((alternative) => {
           return (
             <AlternativeButton
@@ -28,7 +35,13 @@ export default async function Page({
           );
         })}
       </div>
-      <FinishElectionButton electionId={Number(id)} finishAction={FinishElectionAction}/>
-    </>
+
+      <div className="mt-8">
+        <FinishElectionButton
+          electionId={Number(id)}
+          finishAction={FinishElectionAction}
+        />
+      </div>
+    </div>
   );
 }
