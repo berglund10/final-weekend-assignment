@@ -15,11 +15,18 @@ export const alternativesTable = pgTable("alternatives", {
     .references(() => electionTable.id),
 });
 
-export const votesTable = pgTable("votes", { //Kanske byta namn till public_chocies eller något
+export const electionVotesTable = pgTable("election_votes", { 
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     voter_id: integer().references(() => publicVotersTable.id),
-    representative_id: integer().references(() => representativeTable.id),
     election_id: integer().notNull().references(() => electionTable.id),
     alternative_id: integer().notNull().references(() => alternativesTable.id)
 });
+
+export const publicPreferencesVotesTable = pgTable("public_preferences", { 
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  voter_id: integer().references(() => publicVotersTable.id),
+  election_id: integer().notNull().references(() => electionTable.id),
+  alternative_id: integer().notNull().references(() => alternativesTable.id)
+});
+
 
