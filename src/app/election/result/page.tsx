@@ -1,5 +1,7 @@
 import { electionService } from "@/features/election/instance";
+import { calculateAgreementRate } from "@/features/election/logic";
 import { representativeService } from "@/features/representative/instance";
+import Representative from "@/features/representative/ui/representative";
 
 export default async function Page({
   searchParams,
@@ -8,57 +10,23 @@ export default async function Page({
 }) {
   const id = (await searchParams).id;
 
-  const alternatives = await electionService.getAlternatives(Number(id));
+  const representatives = await representativeService.getAll();
 
-  const votes = await electionService.getVotesForRepresentativeInElection(1, Number(id));
+  const voteCount = await electionService.getVoteCount(Number(id));
 
-  console.log(votes); // HUR MÅNGA SOM REPRESNTANT 1 RÖSTADE MED OCH VILKET ALTERNATIV HEN VALDE
-
-  const publicPref = await electionService.getPublicPreferencesForRepresentativeInElection(1, Number(1));
-  // HUR DOM EGENTLIGEN RÖSTADE
-
-  console.log(publicPref);
-
-  const calculateAgreementRate = (
-    representativeVotes: { voter_id: number | null; alternative_id: number }[],
-    publicPreferences: { voter_id: number | null; alternative_id: number }[]
-  ) => {
-
-    const validRepresentativeVotes = representativeVotes.filter(vote => vote.voter_id !== null);
-  
-    const matchingVotes = publicPreferences.filter((pref) => {
-      const representativeVote = validRepresentativeVotes.find(vote => vote.voter_id === pref.voter_id);
-      return representativeVote && representativeVote.alternative_id === pref.alternative_id;
-    });
-  
-    const matchingCount = matchingVotes.length;
-    
-    const totalVotes = validRepresentativeVotes.length;
-
-    const agreementRate = (matchingCount / totalVotes) * 100;
-  
-    return agreementRate;
-  };
-
-  const rate = calculateAgreementRate(votes, publicPref);
-
-  console.log(rate);
-
+  const winner = voteCount.reduce((max, current) =>
+    current.vote_count > max.vote_count ? current : max
+  );
 
   return (
   <>
   STATS for election id:  {id}
-  <br/>
-  Total public votes:
-
-  {alternatives.map(async (a) => {
-    return <p key={a.id}>{a.name} {(await electionService.getVotesForAlternative(Number(id), a.id)).length}</p>
+  {representatives.map((rep) => {
+    return <Representative key={rep.id} representative={rep} election_id={Number(id)} />
   })}
-
-{/*   Representative: 1 voted for {await electionService.getAlternativeNameById(representativeOneAlternative)} with {voterIds.length} votes
   <br/>
-  Representative 2 voted for {await electionService.getAlternativeNameById(representativeTwoAlternative)} with {voterIds2.length} votes */}
-
+  Winner is {winner.name} with {winner.vote_count} votes!
+  
   </>
   );
 }
