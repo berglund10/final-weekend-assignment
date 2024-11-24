@@ -1,5 +1,5 @@
 import { Db } from "@/db/instance";
-import { alternativesTable, electionTable, electionVotesTable } from "./schema";
+import { alternativesTable, electionTable, electionVotesTable, publicPreferencesVotesTable } from "./schema";
 import { and, eq, inArray } from "drizzle-orm/pg-core/expressions";
 import { publicVotersTable } from "../representative/schema";
 
@@ -87,6 +87,40 @@ export const createService = (db: Db) => {
       .set({ done: true })
       .where(eq(electionTable.id, electionId));
     },
+    getVotesForRepresentativeInElection: async (representativeId: number, electionId: number) => {
+      const result = await db
+        .select({voter_id: electionVotesTable.voter_id, alternative_id: electionVotesTable.alternative_id})
+        .from(electionVotesTable)
+        .innerJoin(
+          publicVotersTable,
+          eq(electionVotesTable.voter_id, publicVotersTable.id)
+        )
+        .where(
+          and(
+            eq(publicVotersTable.representative_id, representativeId),
+            eq(electionVotesTable.election_id, electionId)
+          )
+        );
+    
+      return result;
+    },
+    getPublicPreferencesForRepresentativeInElection: async (representativeId: number, electionId: number) => {
+      const result = await db
+        .select({voter_id: publicPreferencesVotesTable.voter_id, alternative_id: publicPreferencesVotesTable.alternative_id})
+        .from(publicPreferencesVotesTable)
+        .innerJoin(
+          publicVotersTable,
+          eq(publicPreferencesVotesTable.voter_id, publicVotersTable.id)
+        )
+        .where(
+          and(
+            eq(publicVotersTable.representative_id, representativeId),
+            eq(publicPreferencesVotesTable.election_id, electionId)
+          )
+        );
+    
+      return result;
+    },
     registerRepresentativeVotes: async (representative_id: number, election_id: number, alternative_id: number) => {
       
       const publicVoters = 
@@ -110,7 +144,7 @@ export const createService = (db: Db) => {
         return { message: 'No public voters found for this representative.' };
       }
       
+    },
 
-    }
   };
 };
