@@ -32,7 +32,9 @@ export function ElectionBoard({ elections }: Props) {
             key={election.id}
             className="flex items-center justify-between w-full max-w-lg p-4 border rounded-lg shadow-md bg-white"
           >
-            <p className="text-lg font-semibold text-gray-800">{election.description}</p>
+            <p className="text-lg font-semibold text-gray-800">
+              {election.description}
+            </p>
             {election.done ? (
               <Link
                 href={`/election/result?id=${election.id}`}
@@ -59,6 +61,7 @@ export function ElectionBoard({ elections }: Props) {
             name="description"
             placeholder="Type of election"
             className="input input-bordered w-full p-3 rounded-lg"
+            required
           />
         </div>
 

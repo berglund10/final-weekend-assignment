@@ -9,11 +9,13 @@ type Props = {
 
 export function FinishElectionButton({ electionId, finishAction }: Props) {
   return (
-    <>
-    <button onClick={() => finishAction(electionId)}>
-        Finish election {electionId}
-    </button>
-    <br/>
-    </>
+    <div className="flex justify-center mt-6">
+      <button
+        onClick={() => finishAction(electionId)}
+        className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition-all"
+      >
+        End Election
+      </button>
+    </div>
   );
 }

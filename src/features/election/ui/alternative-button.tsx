@@ -9,13 +9,21 @@ type Props = {
   selectAction: (alternativeId: number, electionId: number) => void;
 };
 
-export function AlternativeButton({ alternativeId, alternativeName, selectAction, electionId }: Props) {
+export function AlternativeButton({
+  alternativeId,
+  alternativeName,
+  selectAction,
+  electionId,
+}: Props) {
   return (
     <>
-    <button className="btn btn-danger w-full max-w-xs" onClick={() => selectAction(electionId, alternativeId)}>
-    {alternativeName}
-    </button>
-    <br/>
+      <button
+        className="btn btn-danger w-full max-w-xs"
+        onClick={() => selectAction(electionId, alternativeId)}
+      >
+        {alternativeName}
+      </button>
+      <br />
     </>
   );
 }

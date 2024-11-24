@@ -15,15 +15,36 @@ export const createService = (db: Db) => {
     },
     vote: async (id: number) => {
       await db.insert(publicVotersTable).values({
-        representative_id: id
+        representative_id: id,
       });
-      console.log("VOTED!");
     },
     getAllPublicVotersByRepresentative: async (id: number) => {
-      const publicVoters = await db.select().from(publicVotersTable)
-      .where(eq(publicVotersTable.representative_id, id));
+      const publicVoters = await db
+        .select()
+        .from(publicVotersTable)
+        .where(eq(publicVotersTable.representative_id, id));
 
       return publicVoters;
-    }
+    },
+
+    getPublicVotersForRepresentative: async (representative_id: number) => {
+      const voters = await db
+        .select()
+        .from(publicVotersTable)
+        .where(eq(publicVotersTable.representative_id, representative_id));
+
+      const representative = await db
+        .select()
+        .from(representativeTable)
+        .where(eq(representativeTable.id, representative_id))
+        .limit(1);
+
+      const result = voters.map((voter) => ({
+        ...voter,
+        representative: representative[0],
+      }));
+
+      return result;
+    },
   };
 };

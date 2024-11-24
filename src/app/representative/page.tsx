@@ -13,9 +13,6 @@ export default async function Page() {
 
       <VoteBoard representative={representatives} />
       <div className="w-full max-w-xs mt-8">
-        <h3 className="text-xl font-semibold text-center text-gray-800 mb-4">
-          Add New Representative
-        </h3>
         <form action={postRepresentativeAction} className="space-y-4">
           <input
             type="text"
@@ -29,10 +26,7 @@ export default async function Page() {
             placeholder="Email here"
             className="input input-bordered w-full"
           />
-          <button
-            type="submit"
-            className="btn btn-primary w-full"
-          >
+          <button type="submit" className="btn btn-primary w-full">
             Add Representative
           </button>
         </form>

@@ -15,7 +15,7 @@ export default async function Page({
   const electionName = await electionService.getElectionNameById(Number(id));
 
   const winner = voteCount.reduce((max, current) =>
-    current.vote_count > max.vote_count ? current : max
+    current.vote_count > max.vote_count ? current : max,
   );
 
   return (
@@ -25,7 +25,8 @@ export default async function Page({
       </h1>
 
       <p className="text-xl text-center text-gray-600">
-        Winner: <strong>{winner.name}</strong> with <strong>{winner.vote_count}</strong> votes!
+        Winner: <strong>{winner.name}</strong> with{" "}
+        <strong>{winner.vote_count}</strong> votes!
       </p>
 
       <div className="space-y-4">

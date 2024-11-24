@@ -11,7 +11,7 @@ export default async function Page() {
       </h1>
 
       <p className="text-xl text-center text-gray-600">
-      View results, participate in ongoing, or create a new election.
+        View results, participate in ongoing, or create a new election.
       </p>
 
       <ElectionBoard elections={elections} />

@@ -18,11 +18,11 @@ export default function RootLayout({
         <div className="fixed top-5 left-5 z-10">
           <Link href="/">
             <button className="text-2xl text-blue-500 hover:text-blue-700">
-             &larr;
+              &larr;
             </button>
           </Link>
         </div>
-        
+
         {children}
       </body>
     </html>

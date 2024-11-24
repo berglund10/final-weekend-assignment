@@ -1,4 +1,7 @@
-import { FinishElectionAction, selectAction } from "@/features/election/actions";
+import {
+  FinishElectionAction,
+  selectAction,
+} from "@/features/election/actions";
 import { electionService } from "@/features/election/instance";
 import { AlternativeButton } from "@/features/election/ui/alternative-button";
 import { FinishElectionButton } from "@/features/election/ui/finish-election-button";
@@ -17,10 +20,6 @@ export default async function Page({
       <h1 className="text-4xl font-bold text-center text-gray-800">
         {electionName}
       </h1>
-
-      <h2 className="text-2xl font-semibold text-center text-gray-600">
-        Choose an alternative to vote
-      </h2>
 
       <div className="flex flex-col items-center space-y-4">
         {alternatives.map((alternative) => {
