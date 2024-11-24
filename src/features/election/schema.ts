@@ -1,7 +1,6 @@
 import { boolean, integer, pgTable, varchar } from "drizzle-orm/pg-core";
 import {
   publicVotersTable,
-  representativeTable,
 } from "../representative/schema";
 
 export const electionTable = pgTable("election", {
@@ -32,19 +31,6 @@ export const electionVotesTable = pgTable("election_votes", {
 export const publicPreferencesVotesTable = pgTable("public_preferences", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   voter_id: integer().references(() => publicVotersTable.id),
-  election_id: integer()
-    .notNull()
-    .references(() => electionTable.id),
-  alternative_id: integer()
-    .notNull()
-    .references(() => alternativesTable.id),
-});
-
-export const representantVotes = pgTable("representant_votes", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  representative_id: integer()
-    .notNull()
-    .references(() => representativeTable.id),
   election_id: integer()
     .notNull()
     .references(() => electionTable.id),

@@ -98,7 +98,6 @@ const seedCatsAndDogsElection = async () => {
 };
 
 const seedSchoolsElection = async () => {
-
   const representatives = [
     { name: "Lena", email: "lena@example.com" },
     { name: "Bengt", email: "bengt@example.com" },
@@ -190,7 +189,7 @@ const seedSchoolsElection = async () => {
       election_id: electionId,
       alternative_id: privateId,
     })),
-    
+
     ...charlesVoters.slice(0, 10).map((voter) => ({
       voter_id: voter.id,
       election_id: electionId,

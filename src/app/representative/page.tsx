@@ -12,7 +12,7 @@ export default async function Page() {
       </h1>
 
       <h2 className="text-2xl font-semibold text-center text-gray-600">
-      Click on a representative to cast your public vote
+        Click on a representative to cast your public vote
       </h2>
 
       <VoteBoard representative={representatives} />

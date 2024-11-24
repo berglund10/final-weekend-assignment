@@ -34,7 +34,7 @@ export async function ElectionResult({ representative, election_id }: Props) {
   return (
     <p>
       {representative.name} voted for {alternativeName} with {votes.length}{" "}
-      votes and an agreement rate of {agreementRate} %
+      votes and had an agreement rate of {agreementRate} %
     </p>
   );
-};
+}
