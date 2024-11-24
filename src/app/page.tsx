@@ -13,12 +13,12 @@ export default function Home() {
       <div className="flex space-x-4">
         <Link href="/representative">
           <button className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600">
-            See Representatives
+            Representatives
           </button>
         </Link>
         <Link href="/election">
           <button className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600">
-            See Elections
+            Elections
           </button>
         </Link>
       </div>
