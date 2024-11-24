@@ -8,6 +8,10 @@ export const createService = (db: Db) => {
     getAll: async () => {
       return await db.select().from(representativeTable);
     },
+    getById: async (representativeId: number) => {
+      const representative = await db.select().from(representativeTable).where(eq(representativeTable.id, representativeId))
+      return representative[0];
+    },
     add: async (rawData: Representative) => {
       const representative = representativeSchema.parse(rawData);
 
