@@ -14,6 +14,15 @@ export const createService = (db: Db) => {
       const data = await db.insert(electionTable).values(rawData).returning();
       return data[0];
     },
+    getElectionNameById: async (id: number) => {
+      const election = 
+      await 
+      db.select()
+      .from(electionTable)
+      .where(eq(electionTable.id, id));
+
+      return election[0].description;
+    },
     addAlternative: async (election_id: number, alternative: string) => {
       await db.insert(alternativesTable).values({
         election_id,
