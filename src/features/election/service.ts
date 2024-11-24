@@ -5,7 +5,7 @@ import {
   electionVotesTable,
   publicPreferencesVotesTable,
 } from "./schema";
-import { and, eq, inArray } from "drizzle-orm/pg-core/expressions";
+import { and, eq } from "drizzle-orm/pg-core/expressions";
 import { publicVotersTable } from "../representative/schema";
 import { count } from "drizzle-orm";
 
@@ -47,69 +47,7 @@ export const createService = (db: Db) => {
 
       return alternative[0].name;
     },
-    getAlternativesForRepresentative: async (
-      election_id: number,
-      representative_id: number,
-    ) => {
-      const alternative = await db
-        .select()
-        .from(electionVotesTable)
-        .where(eq(electionVotesTable.election_id, election_id));
-      return alternative[0].alternative_id;
-    },
 
-    getById: async (id: number) => {
-      const election = await db
-        .select()
-        .from(electionTable)
-        .where(eq(electionTable.id, id))
-        .limit(1);
-
-      return election[0];
-    },
-    getVotesForAlternativeInArray: async (
-      election_id: number,
-      voterIds: number[],
-      alternative_id: number,
-    ) => {
-      const votesForAlternative = await db
-        .select()
-        .from(electionVotesTable)
-        .where(
-          and(
-            eq(electionVotesTable.election_id, election_id),
-            eq(electionVotesTable.alternative_id, alternative_id),
-            inArray(electionVotesTable.voter_id, voterIds),
-          ),
-        );
-
-      return votesForAlternative.length;
-    },
-    getVotesForAlternative: async (
-      election_id: number,
-      alternative_id: number,
-    ) => {
-      const votesForAlternative = await db
-        .select()
-        .from(electionVotesTable)
-        .where(
-          and(
-            eq(electionVotesTable.election_id, election_id),
-            eq(electionVotesTable.alternative_id, alternative_id),
-          ),
-        );
-      return votesForAlternative;
-    },
-    postVote: async (
-      representativeId: number,
-      electionId: number,
-      alternativeId: number,
-    ) => {
-      await db.insert(electionVotesTable).values({
-        election_id: electionId,
-        alternative_id: alternativeId,
-      });
-    },
     finishElection: async (electionId: number) => {
       await db
         .update(electionTable)
