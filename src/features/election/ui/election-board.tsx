@@ -92,7 +92,7 @@ export function ElectionBoard({ elections }: Props) {
             type="submit"
             className="btn btn-primary text-white px-4 py-2 rounded-lg"
           >
-            Submit
+            Start
           </button>
         </div>
       </form>

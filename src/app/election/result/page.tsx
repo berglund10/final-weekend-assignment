@@ -1,5 +1,5 @@
 import { electionService } from "@/features/election/instance";
-import { calculateAgreementRate } from "@/features/election/logic";
+
 import { representativeService } from "@/features/representative/instance";
 import Representative from "@/features/representative/ui/representative";
 
