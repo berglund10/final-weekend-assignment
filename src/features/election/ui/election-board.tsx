@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-
 import { postElectionAction } from "@/features/election/actions";
 import { useState } from "react";
 
@@ -26,58 +25,74 @@ export function ElectionBoard({ elections }: Props) {
   };
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-center space-y-6 p-4">
       {elections.map((election) => {
         return (
           <div
             key={election.id}
-            style={{ display: "flex", alignItems: "center" }}
+            className="flex items-center justify-between w-full max-w-lg p-4 border rounded-lg shadow-md bg-white"
           >
-            <p style={{ marginRight: "10px" }}>{election.description}</p>
+            <p className="text-lg font-semibold text-gray-800">{election.description}</p>
             {election.done ? (
-              <Link href={`/election/result?id=${election.id}`}>
-                Show Result
+              <Link
+                href={`/election/result?id=${election.id}`}
+                className="btn btn-primary text-white px-6 py-2 rounded"
+              >
+                Result
               </Link>
             ) : (
-              <Link href={`/election/vote?id=${election.id}`}>Vote</Link>
+              <Link
+                href={`/election/vote?id=${election.id}`}
+                className="btn btn-secondary text-white px-6 py-2 rounded"
+              >
+                Vote
+              </Link>
             )}
           </div>
         );
       })}
-      <form action={postElectionAction}>
-        <input
-          type="text"
-          name="description"
-          placeholder="Type of election"
-          className="input input-bordered w-full max-w-xs"
-        />
+
+      <form action={postElectionAction} className="space-y-4 w-full max-w-lg">
+        <div>
+          <input
+            type="text"
+            name="description"
+            placeholder="Type of election"
+            className="input input-bordered w-full p-3 rounded-lg"
+          />
+        </div>
 
         {alternatives.map((alternative, index) => (
-          <div key={index} className="mb-2">
+          <div key={index} className="mb-4">
             <input
               type="text"
               name="alternative"
               value={alternative}
               placeholder="Type of election alternative"
               onChange={(e) => handleAlternativeChange(index, e.target.value)}
-              className="input input-bordered w-full max-w-xs"
+              className="input input-bordered w-full p-3 rounded-lg"
               required
             />
           </div>
         ))}
 
-        <button
-          type="button"
-          onClick={addAlternativeField}
-          className="btn btn-ghost"
-        >
-          Add Alternative
-        </button>
+        <div className="flex space-x-4">
+          <button
+            type="button"
+            onClick={addAlternativeField}
+            className="btn btn-ghost text-gray-600 px-4 py-2 rounded-lg border"
+          >
+            Add Alternative
+          </button>
 
-        <button type="submit" className="btn btn-ghost">
-          Send
-        </button>
+          <button
+            type="submit"
+            className="btn btn-primary text-white px-4 py-2 rounded-lg"
+          >
+            Submit
+          </button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
