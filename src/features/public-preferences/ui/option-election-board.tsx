@@ -19,16 +19,16 @@ export function OptionElectionBoard({ elections }: Props) {
             key={election.id}
             className="flex items-center justify-between w-full max-w-lg p-4 border rounded-lg shadow-md bg-white"
           >
-              <p className="text-lg font-medium text-gray-700">
-                {election.description}
-              </p>
-              <Link
-                href={`/election/vote?id=${election.id}`}
-                className="btn btn-secondary text-white px-6 mx-2 py-2 rounded"
-              >
-                Vote
-              </Link>
-            </div>
+            <p className="text-lg font-medium text-gray-700">
+              {election.description}
+            </p>
+            <Link
+              href={`/election/vote?id=${election.id}`}
+              className="btn btn-secondary text-white px-6 mx-2 py-2 rounded"
+            >
+              Vote
+            </Link>
+          </div>
         ))}
     </div>
   );

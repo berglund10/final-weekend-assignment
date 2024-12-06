@@ -9,7 +9,10 @@ export const createService = (db: Db) => {
       return await db.select().from(representativeTable);
     },
     getById: async (representativeId: number) => {
-      const representative = await db.select().from(representativeTable).where(eq(representativeTable.id, representativeId))
+      const representative = await db
+        .select()
+        .from(representativeTable)
+        .where(eq(representativeTable.id, representativeId));
       return representative[0];
     },
     add: async (rawData: Representative) => {
@@ -23,10 +26,10 @@ export const createService = (db: Db) => {
       });
     },
     getAllPublicVotersById: async (representativeId: number) => {
-      return await 
-      db.select()
-      .from(publicVotersTable)
-      .where(eq(publicVotersTable.representative_id, representativeId));
-    }
+      return await db
+        .select()
+        .from(publicVotersTable)
+        .where(eq(publicVotersTable.representative_id, representativeId));
+    },
   };
 };

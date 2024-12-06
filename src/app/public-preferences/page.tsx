@@ -9,7 +9,7 @@ export default async function Page() {
       <h1 className="text-4xl font-bold text-center">Representatives</h1>
 
       <h2 className="text-2xl font-semibold text-center text-gray-600">
-      Select your representative to make your choice in an election.
+        Select your representative to make your choice in an election.
       </h2>
 
       <PreferenceBoard representative={representatives} />

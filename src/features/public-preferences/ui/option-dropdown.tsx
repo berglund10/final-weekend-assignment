@@ -1,6 +1,10 @@
 "use client";
 
-export function OptionDropdown({ publicVoters }: { publicVoters: { id: number }[] }) {
+export function OptionDropdown({
+  publicVoters,
+}: {
+  publicVoters: { id: number }[];
+}) {
   return (
     <div className="w-full max-w-xs">
       <select
