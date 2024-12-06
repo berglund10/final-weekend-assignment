@@ -1,10 +1,3 @@
 import { RepresentativePage } from "@/features";
 
-export default function Page() {
-
-  return (
-    <>
-    <RepresentativePage />
-    </>
-  );
-}
+export default RepresentativePage
