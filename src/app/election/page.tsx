@@ -1,3 +1,3 @@
-import { ElectionBoardPage } from "@/features/election/ui";
+import { ElectionBoardPage } from "@/features";
 
 export default ElectionBoardPage
