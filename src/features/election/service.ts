@@ -168,5 +168,15 @@ export const createService = (db: Db) => {
 
       return agreementRate;
     },
+    async getFirstAlternativeNameForRepresentative(election_id: number, representative_id: number) {
+      const votes = await this.getVotesForRepresentativeInElection(representative_id, election_id);
+
+      if (votes.length === 0 || !votes[0].alternative_id) {
+        return "no vote";
+      }
+
+      const alternativeName = await this.getAlternativeNameById(votes[0].alternative_id);
+      return alternativeName;
+    },
   };
 };
