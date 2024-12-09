@@ -1,9 +1,9 @@
-import { ElectionResultPage } from "@/features";
+import { ResultPage } from "@/features";
 
 type Props = {
   searchParams: Promise<{ id?: string }>;
 };
 
 export default async function Page({ searchParams }: Props) {
-  return <ElectionResultPage searchParams={searchParams} />;
+  return <ResultPage searchParams={searchParams} />;
 }

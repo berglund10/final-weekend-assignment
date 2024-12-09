@@ -1,3 +1,3 @@
-export * from "./election-result-page";
-export * from "./election-vote-page";
+export * from "./result-page";
+export * from "./vote-page";
 export * from "./election-board-page";
