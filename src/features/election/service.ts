@@ -9,19 +9,21 @@ import { and, eq } from "drizzle-orm/pg-core/expressions";
 import { publicVotersTable } from "../representative/schema";
 import { count } from "drizzle-orm";
 import { Election, electionSchema } from "./validation";
+import { calculateAgreementRate } from "./logic";
 
 export const createService = (db: Db) => {
   return {
-    getAllElections: async () => {
+    async getAllElections() {
       return await db.select().from(electionTable);
     },
 
-    addElection: async (rawData: Election) => {
+    async addElection(rawData: Election) {
       const election = electionSchema.parse(rawData);
       const data = await db.insert(electionTable).values(election).returning();
       return data[0];
     },
-    getElectionById: async (id: number) => {
+
+    async getElectionById(id: number) {
       const election = await db
         .select()
         .from(electionTable)
@@ -29,19 +31,22 @@ export const createService = (db: Db) => {
 
       return election[0];
     },
-    addAlternative: async (election_id: number, alternative: string) => {
+
+    async addAlternative(election_id: number, alternative: string) {
       await db.insert(alternativesTable).values({
         election_id,
         name: alternative,
       });
     },
-    getAlternatives: async (election_id: number) => {
+
+    async getAlternatives(election_id: number) {
       return await db
         .select()
         .from(alternativesTable)
         .where(eq(alternativesTable.election_id, election_id));
     },
-    getAlternativeNameById: async (id: number) => {
+
+    async getAlternativeNameById(id: number) {
       const alternative = await db
         .select()
         .from(alternativesTable)
@@ -50,16 +55,14 @@ export const createService = (db: Db) => {
       return alternative[0].name;
     },
 
-    finishElection: async (electionId: number) => {
+    async finishElection(electionId: number) {
       await db
         .update(electionTable)
         .set({ done: true, end_date: new Date() })
         .where(eq(electionTable.id, electionId));
     },
-    getVotesForRepresentativeInElection: async (
-      representativeId: number,
-      electionId: number,
-    ) => {
+
+    async getVotesForRepresentativeInElection(representativeId: number, electionId: number) {
       const result = await db
         .select({
           voter_id: electionVotesTable.voter_id,
@@ -79,10 +82,8 @@ export const createService = (db: Db) => {
 
       return result;
     },
-    getPublicPreferencesForRepresentativeInElection: async (
-      representativeId: number,
-      electionId: number,
-    ) => {
+
+    async getPublicPreferencesForRepresentativeInElection(representativeId: number, electionId: number) {
       const result = await db
         .select({
           voter_id: publicPreferencesVotesTable.voter_id,
@@ -102,11 +103,8 @@ export const createService = (db: Db) => {
 
       return result;
     },
-    registerRepresentativeVotes: async (
-      representative_id: number,
-      election_id: number,
-      alternative_id: number,
-    ) => {
+
+    async registerRepresentativeVotes(representative_id: number, election_id: number, alternative_id: number) {
       const publicVoters = await db
         .select({ id: publicVotersTable.id })
         .from(publicVotersTable)
@@ -124,7 +122,8 @@ export const createService = (db: Db) => {
         await db.insert(electionVotesTable).values(insertData);
       }
     },
-    getVoteCount: async (election_id: number) => {
+
+    async getVoteCount(election_id: number) {
       const alternatives = await db
         .select({
           alternative_id: alternativesTable.id,
@@ -154,6 +153,20 @@ export const createService = (db: Db) => {
       });
 
       return result;
+    },
+
+    async getAgreementRateForRepresentativeInElection(election_id: number, representative_id: number) {
+      const votes = await this.getVotesForRepresentativeInElection(representative_id, election_id);
+      const publicPref = await this.getPublicPreferencesForRepresentativeInElection(representative_id, election_id);
+      let agreementRate = calculateAgreementRate(votes, publicPref);
+      
+      if (isNaN(agreementRate)) {
+        agreementRate = 0;
+      }
+
+      agreementRate = Math.round(agreementRate);
+
+      return agreementRate;
     },
   };
 };
