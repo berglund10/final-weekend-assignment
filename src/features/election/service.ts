@@ -38,7 +38,10 @@ export const createService = (db: Db) => {
         name: alternative,
       });
     },
-    async addElectionWithAlternatives(alternatives: string[], rawData: Election) {
+    async addElectionWithAlternatives(
+      alternatives: string[],
+      rawData: Election,
+    ) {
       const election = await this.addElection(rawData);
       await db.transaction(async (tx) => {
         for (const alternative of alternatives) {
@@ -72,7 +75,10 @@ export const createService = (db: Db) => {
         .where(eq(electionTable.id, electionId));
     },
 
-    async getVotesForRepresentativeInElection(representativeId: number, electionId: number) {
+    async getVotesForRepresentativeInElection(
+      representativeId: number,
+      electionId: number,
+    ) {
       const result = await db
         .select({
           voter_id: electionVotesTable.voter_id,
@@ -93,7 +99,10 @@ export const createService = (db: Db) => {
       return result;
     },
 
-    async getPublicPreferencesForRepresentativeInElection(representativeId: number, electionId: number) {
+    async getPublicPreferencesForRepresentativeInElection(
+      representativeId: number,
+      electionId: number,
+    ) {
       const result = await db
         .select({
           voter_id: publicPreferencesVotesTable.voter_id,
@@ -114,7 +123,11 @@ export const createService = (db: Db) => {
       return result;
     },
 
-    async registerRepresentativeVotes(representative_id: number, election_id: number, alternative_id: number) {
+    async registerRepresentativeVotes(
+      representative_id: number,
+      election_id: number,
+      alternative_id: number,
+    ) {
       const publicVoters = await db
         .select({ id: publicVotersTable.id })
         .from(publicVotersTable)
@@ -165,11 +178,21 @@ export const createService = (db: Db) => {
       return result;
     },
 
-    async getAgreementRateForRepresentativeInElection(election_id: number, representative_id: number) {
-      const votes = await this.getVotesForRepresentativeInElection(representative_id, election_id);
-      const publicPref = await this.getPublicPreferencesForRepresentativeInElection(representative_id, election_id);
+    async getAgreementRateForRepresentativeInElection(
+      election_id: number,
+      representative_id: number,
+    ) {
+      const votes = await this.getVotesForRepresentativeInElection(
+        representative_id,
+        election_id,
+      );
+      const publicPref =
+        await this.getPublicPreferencesForRepresentativeInElection(
+          representative_id,
+          election_id,
+        );
       let agreementRate = calculateAgreementRate(votes, publicPref);
-      
+
       if (isNaN(agreementRate)) {
         agreementRate = 0;
       }
@@ -178,14 +201,22 @@ export const createService = (db: Db) => {
 
       return agreementRate;
     },
-    async getFirstAlternativeNameForRepresentative(election_id: number, representative_id: number) {
-      const votes = await this.getVotesForRepresentativeInElection(representative_id, election_id);
+    async getFirstAlternativeNameForRepresentative(
+      election_id: number,
+      representative_id: number,
+    ) {
+      const votes = await this.getVotesForRepresentativeInElection(
+        representative_id,
+        election_id,
+      );
 
       if (votes.length === 0 || !votes[0].alternative_id) {
         return "no vote";
       }
 
-      const alternativeName = await this.getAlternativeNameById(votes[0].alternative_id);
+      const alternativeName = await this.getAlternativeNameById(
+        votes[0].alternative_id,
+      );
       return alternativeName;
     },
   };

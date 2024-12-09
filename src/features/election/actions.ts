@@ -9,10 +9,10 @@ export const postElectionAction = async (formData: FormData) => {
 
   const alternatives = formData.getAll("alternative") as string[];
 
-    await electionService.addElectionWithAlternatives(alternatives, {
-      description,
-      done: false,
-    });
+  await electionService.addElectionWithAlternatives(alternatives, {
+    description,
+    done: false,
+  });
 
   revalidatePath("/election");
 };

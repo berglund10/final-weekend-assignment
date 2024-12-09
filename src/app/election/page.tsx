@@ -1,3 +1,3 @@
 import { ElectionBoardPage } from "@/features";
 
-export default ElectionBoardPage
+export default ElectionBoardPage;

@@ -7,7 +7,7 @@ type Props = {
   searchParams: Promise<{ id?: string }>;
 };
 
-export default async function ChoicePage({ searchParams} : Props ) {
+export default async function ChoicePage({ searchParams }: Props) {
   const id = (await searchParams).id;
 
   const representative = await representativeService.getById(Number(id));

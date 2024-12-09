@@ -7,12 +7,22 @@ type Props = {
 };
 
 export async function ElectionResult({ representative, election_id }: Props) {
+  const votes = await electionService.getVotesForRepresentativeInElection(
+    representative.id,
+    election_id,
+  );
 
-    const votes = await electionService.getVotesForRepresentativeInElection(representative.id, election_id);
+  const alternativeName =
+    await electionService.getFirstAlternativeNameForRepresentative(
+      election_id,
+      representative.id,
+    );
 
-    const alternativeName =  await electionService.getFirstAlternativeNameForRepresentative(election_id, representative.id);
-
-    const agreementRate = await electionService.getAgreementRateForRepresentativeInElection(election_id, representative.id)
+  const agreementRate =
+    await electionService.getAgreementRateForRepresentativeInElection(
+      election_id,
+      representative.id,
+    );
 
   return (
     <p>
