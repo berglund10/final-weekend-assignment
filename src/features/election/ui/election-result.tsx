@@ -1,5 +1,4 @@
-import { electionService } from "@/features/election/instance";
-import { calculateAgreementRate } from "@/features/election/logic";
+import { electionService } from "@/features";
 import React from "react";
 
 type Props = {
@@ -17,19 +16,7 @@ export async function ElectionResult({ representative, election_id }: Props) {
     ? await electionService.getAlternativeNameById(votes[0].alternative_id)
     : "no vote";
 
-  const publicPref =
-    await electionService.getPublicPreferencesForRepresentativeInElection(
-      representative.id,
-      election_id,
-    );
-
-  let agreementRate = calculateAgreementRate(votes, publicPref);
-
-  if (isNaN(agreementRate)) {
-    agreementRate = 0;
-  }
-
-  agreementRate = Math.round(agreementRate);
+    const agreementRate = await electionService.getAgreementRateForRepresentativeInElection(election_id, representative.id)
 
   return (
     <p>
