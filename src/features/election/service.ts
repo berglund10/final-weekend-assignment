@@ -38,7 +38,17 @@ export const createService = (db: Db) => {
         name: alternative,
       });
     },
-
+    async addElectionWithAlternatives(alternatives: string[], rawData: Election) {
+      const election = await this.addElection(rawData);
+      await db.transaction(async (tx) => {
+        for (const alternative of alternatives) {
+          await tx.insert(alternativesTable).values({
+            election_id: election.id,
+            name: alternative,
+          });
+        }
+      });
+    },
     async getAlternatives(election_id: number) {
       return await db
         .select()
