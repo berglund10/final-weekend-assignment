@@ -7,7 +7,7 @@ type Props = {
   searchParams: Promise<{ id?: string }>;
 };
 
-export async function ElectionVotePage({ searchParams }: Props) {
+export async function VotePage({ searchParams }: Props) {
   const id = (await searchParams).id;
   const alternatives = await electionService.getAlternatives(Number(id));
   const election = await electionService.getElectionById(Number(id));

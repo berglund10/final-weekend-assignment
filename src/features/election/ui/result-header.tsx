@@ -4,7 +4,7 @@ type Props = {
   id?: string;
 };
 
-export async function ElectionResultHeader({ id }: Props) {
+export async function ResultHeader({ id }: Props) {
   const voteCount = await electionService.getVoteCount(Number(id));
   const election = await electionService.getElectionById(Number(id));
 
