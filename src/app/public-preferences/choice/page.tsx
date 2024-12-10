@@ -1,4 +1,4 @@
-import ChoicePage from "@/features/public-preferences/ui/choice-page";
+import { ChoicePage } from "@/features";
 
 type Props = {
   searchParams: Promise<{ id?: string }>;

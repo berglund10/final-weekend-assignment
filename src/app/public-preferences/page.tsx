@@ -1,3 +1,3 @@
-import PreferencePage from "@/features/public-preferences/ui/preference-page";
+import { PreferencePage } from "@/features";
 
 export default PreferencePage;

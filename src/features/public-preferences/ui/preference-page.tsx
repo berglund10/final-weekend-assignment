@@ -1,7 +1,7 @@
 import { representativeService } from "@/features";
 import { PreferenceBoard } from "./preference-board";
 
-export default async function PreferencePage() {
+export async function PreferencePage() {
   const representatives = await representativeService.getAll();
 
   return (
