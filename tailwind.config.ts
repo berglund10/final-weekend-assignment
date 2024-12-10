@@ -13,6 +13,6 @@ export default {
   },
   plugins: [daisyui],
   daisyui: {
-    themes: ["corporate", "cupcake"],
+    themes: ["light"],
   },
 } satisfies Config;
