@@ -52,11 +52,13 @@ export const createService = (db: Db) => {
         }
       });
     },
-    async getAlternatives(election_id: number) {
-      return await db
+    async getAlternativesAndElection(election_id: number) {
+      const alternatives = await db
         .select()
         .from(alternativesTable)
         .where(eq(alternativesTable.election_id, election_id));
+        const election = await this.getElectionById(election_id);
+        return {alternatives, election}
     },
 
     async getAlternativeNameById(id: number) {
@@ -146,7 +148,7 @@ export const createService = (db: Db) => {
       }
     },
 
-    async getVoteCount(election_id: number) {
+    async getVoteCountAndElection(election_id: number) {
       const alternatives = await db
         .select({
           alternative_id: alternativesTable.id,
@@ -164,7 +166,7 @@ export const createService = (db: Db) => {
         .where(eq(electionVotesTable.election_id, election_id))
         .groupBy(electionVotesTable.alternative_id);
 
-      const result = alternatives.map((alt) => {
+      const voteCount = alternatives.map((alt) => {
         const vote = voteCounts.find(
           (vote) => vote.alternative_id === alt.alternative_id,
         );
@@ -174,8 +176,8 @@ export const createService = (db: Db) => {
           vote_count: vote ? vote.vote_count : 0,
         };
       });
-
-      return result;
+      const election = await this.getElectionById(election_id);
+      return {voteCount, election};
     },
 
     async getAgreementRateForRepresentativeInElection(
@@ -218,6 +220,42 @@ export const createService = (db: Db) => {
         votes[0].alternative_id,
       );
       return alternativeName;
+    },
+    async getRepresentativeDetailsInElection(
+      election_id: number,
+      representative_id: number,
+    ) {
+      const votes = await this.getVotesForRepresentativeInElection(
+        representative_id,
+        election_id,
+      );
+
+      let alternativeName = "no vote";
+      if (votes.length > 0 && votes[0].alternative_id) {
+        alternativeName = await this.getAlternativeNameById(
+          votes[0].alternative_id,
+        );
+      }
+
+      let agreementRate = 0;
+      if (votes.length > 0) {
+        const publicPref =
+          await this.getPublicPreferencesForRepresentativeInElection(
+            representative_id,
+            election_id,
+          );
+        agreementRate = calculateAgreementRate(votes, publicPref);
+        if (isNaN(agreementRate)) {
+          agreementRate = 0;
+        }
+        agreementRate = Math.round(agreementRate);
+      }
+
+      return {
+        votes,
+        alternativeName,
+        agreementRate,
+      };
     },
   };
 };

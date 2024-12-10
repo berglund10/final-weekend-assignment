@@ -9,8 +9,7 @@ type Props = {
 
 export async function VotePage({ searchParams }: Props) {
   const id = (await searchParams).id;
-  const alternatives = await electionService.getAlternatives(Number(id));
-  const election = await electionService.getElectionById(Number(id));
+  const {alternatives, election } = await electionService.getAlternativesAndElection(Number(id));
 
   return (
     <div className="flex flex-col items-center justify-center p-8 space-y-8">

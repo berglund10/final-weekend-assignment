@@ -9,11 +9,10 @@ type Props = {
 
 export async function ChoicePage({ searchParams }: Props) {
   const id = (await searchParams).id;
-
-  const representative = await representativeService.getById(Number(id));
+  
   const elections = await electionService.getAllElections();
 
-  const publicVoters = await representativeService.getAllPublicVotersById(
+  const {publicVoters, representative} = await representativeService.getAllPublicVotersAndRepresentativeById(
     Number(id),
   );
 

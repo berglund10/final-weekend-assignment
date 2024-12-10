@@ -5,8 +5,7 @@ type Props = {
 };
 
 export async function ResultHeader({ id }: Props) {
-  const voteCount = await electionService.getVoteCount(Number(id));
-  const election = await electionService.getElectionById(Number(id));
+  const {voteCount, election} = await electionService.getVoteCountAndElection(Number(id));
 
   const winner = voteCount.reduce((max, current) =>
     current.vote_count > max.vote_count ? current : max,
